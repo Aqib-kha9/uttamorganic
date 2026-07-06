@@ -39,14 +39,14 @@ export default function Navbar() {
                 <Leaf className="w-4.5 h-4.5 fill-current" />
               </div>
               <div>
-                <span className="text-sm font-black tracking-tight text-slate-900 block leading-none">UTTAM ORGANIC</span>
+                <span className="text-sm font-black tracking-tight text-slate-900 block leading-none">GREENGROW FERTILIZER</span>
                 <span className="text-[7px] uppercase tracking-widest text-emerald-650 font-extrabold block mt-0.5">Scientific Bio-Inputs</span>
               </div>
             </Link>
 
             {/* Mobile Call Icon (Only on mobile top header) */}
             <div className="flex md:hidden items-center gap-2">
-              <a href="tel:+917000528397" className="p-2 text-emerald-605 bg-emerald-50 rounded-xl transition-colors">
+              <a href="tel:+918269108808" className="p-2 text-emerald-605 bg-emerald-50 rounded-xl transition-colors">
                 <PhoneCall className="w-4 h-4" />
               </a>
             </div>
@@ -87,7 +87,7 @@ export default function Navbar() {
 
             {/* Desktop Action Call Button */}
             <a
-              href="tel:+917000528397"
+              href="tel:+918269108808"
               className="hidden md:inline-flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-black uppercase tracking-wider px-4 py-2 rounded-xl transition-all shadow-sm shadow-emerald-700/10 shrink-0"
             >
               <PhoneCall className="w-3.5 h-3.5" />

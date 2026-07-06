@@ -38,7 +38,7 @@ export default function AboutPage() {
             <span className="text-emerald-600 bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">Directly from Laboratory</span>
           </h1>
           <p className="text-stone-500 text-sm sm:text-base leading-relaxed font-medium">
-            Uttam Organic is India's premier agricultural brand designed to deliver professional-grade crop nutrition and protection straight from our factory gates to the farmer's doorstep. We bypass the grid of stockists, agents, and local shops to protect margins and quality.
+            Greengrow Fertilizer is India's premier agricultural brand designed to deliver professional-grade crop nutrition and protection straight from our factory gates to the farmer's doorstep. We bypass the grid of stockists, agents, and local shops to protect margins and quality.
           </p>
         </div>
       </section>
@@ -80,11 +80,11 @@ export default function AboutPage() {
             </div>
           </div>
 
-          {/* Uttam D2C Timeline */}
+          {/* Greengrow D2C Timeline */}
           <div className="bg-white border border-emerald-600/30 rounded-3xl p-6 sm:p-8 space-y-6 relative overflow-hidden ring-1 ring-emerald-50">
             <div className="space-y-1 border-b border-stone-100 pb-4">
               <span className="text-[10px] font-black text-emerald-600 uppercase tracking-widest block">Our D2C Path</span>
-              <h3 className="text-base sm:text-lg font-black text-slate-900">Uttam Direct-to-Farm</h3>
+              <h3 className="text-base sm:text-lg font-black text-slate-900">Greengrow Direct-to-Farm</h3>
             </div>
             
             <div className="relative pl-6 border-l-2 border-emerald-500 space-y-6">

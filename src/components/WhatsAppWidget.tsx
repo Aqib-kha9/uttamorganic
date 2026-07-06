@@ -3,11 +3,11 @@
 import { MessageCircle } from "lucide-react";
 
 export default function WhatsAppWidget() {
-  const message = encodeURIComponent("Hello Uttam Organic! I am interested in your organic fertilizers and would like to receive product catalogues and dealer options.");
-  const whatsappUrl = `https://wa.me/917000528397?text=${message}`;
+  const message = encodeURIComponent("Hello Greengrow Fertilizer! I am interested in your products and would like to receive product catalogues and dealer options.");
+  const whatsappUrl = `https://wa.me/918269108808?text=${message}`;
 
   return (
-    <div className="fixed bottom-6 right-6 z-50">
+    <div className="hidden md:block fixed bottom-6 right-6 z-50">
       <a
         href={whatsappUrl}
         target="_blank"

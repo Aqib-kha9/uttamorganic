@@ -2,6 +2,7 @@
 
 import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
+import Link from "next/link";
 import { Search, Star, RotateCcw } from "lucide-react";
 import { PRODUCTS, Product } from "@/data/products";
 import ProductModal from "@/components/ProductModal";
@@ -122,9 +123,9 @@ function ProductsContent() {
         ) : (
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3.5">
             {filteredProducts.map((prod) => (
-              <div
+              <Link
                 key={prod.id}
-                onClick={() => setSelectedProduct(prod)}
+                href={`/products/${prod.id}`}
                 className="bg-white border border-stone-200/50 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 group cursor-pointer flex flex-col justify-between h-full relative"
               >
                 {/* Premium Discount Tag */}
@@ -161,11 +162,11 @@ function ProductsContent() {
                     <span className="text-sm font-black text-slate-900">₹{prod.currentPrice.toLocaleString()}</span>
                     <span className="text-[10px] text-slate-405 line-through font-medium">₹{prod.originalPrice.toLocaleString()}</span>
                   </div>
-                  <button className="bg-emerald-50 text-emerald-850 border border-emerald-100/50 group-hover:bg-emerald-600 group-hover:text-white group-hover:border-emerald-600 px-3 py-1.5 rounded-xl text-[10px] font-black transition-all duration-300 shrink-0">
+                  <span className="bg-emerald-50 text-emerald-850 border border-emerald-100/50 group-hover:bg-emerald-600 group-hover:text-white group-hover:border-emerald-600 px-3 py-1.5 rounded-xl text-[10px] font-black transition-all duration-300 shrink-0">
                     Enquire
-                  </button>
-                </div>
-              </div>
+                  </span>
+                 </div>
+              </Link>
             ))}
           </div>
         )}

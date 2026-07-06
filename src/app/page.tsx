@@ -12,22 +12,22 @@ export default function Home() {
 
   const slides = [
     {
-      image: "https://images.unsplash.com/photo-1560493676-04071c5f467b?w=1200&auto=format&fit=crop&q=80",
+      image: "https://images.unsplash.com/photo-1500937386664-56d1dfef3854?w=1200&auto=format&fit=crop&q=80",
       headline: <>Get Free <span className="text-emerald-400">Parichay Combo</span> Direct From Factory</>,
       subtext: "Save up to 70% middleman commission on certified bio-inputs."
     },
     {
-      image: "https://images.unsplash.com/photo-1592417817098-8f3d6eb19675?w=1200&auto=format&fit=crop&q=80",
+      image: "https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?w=1200&auto=format&fit=crop&q=80",
       headline: <>Protect Crops with <span className="text-emerald-400">Certified Bio-Pesticides</span></>,
       subtext: "Organic control against sucking pests, thrips, and mites."
     },
     {
-      image: "https://images.unsplash.com/photo-1576086213369-97a306d36557?w=1200&auto=format&fit=crop&q=80",
+      image: "https://images.unsplash.com/photo-1530595467537-0b5996c41f2d?w=1200&auto=format&fit=crop&q=80",
       headline: <>NABL Lab-Tested <span className="text-emerald-400">Scientific Formulations</span></>,
       subtext: "Synthesized in central chemical units under strict double-seal guarantees."
     },
     {
-      image: "https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=1200&auto=format&fit=crop&q=80",
+      image: "https://images.unsplash.com/photo-1535379453347-1ffd615e2108?w=1200&auto=format&fit=crop&q=80",
       headline: <>Accelerate Root Density with <span className="text-emerald-400">98% Humic Acid</span></>,
       subtext: "Increase white root development and soil aeration naturally for higher yields."
     }
@@ -55,7 +55,7 @@ export default function Home() {
     {
       title: "No Middlemen, No Overpricing – Direct to Farm Revolution",
       date: "June 16, 2026",
-      desc: "Indian farmers are the backbone of our country - but they often face high costs and low-quality products. Read how Uttam Organic changes this.",
+      desc: "Indian farmers are the backbone of our country - but they often face high costs and low-quality products. Read how Greengrow Fertilizer changes this.",
       category: "D2C Agriculture"
     },
     {
@@ -179,10 +179,10 @@ export default function Home() {
 
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3.5">
           {featuredProducts.map((prod) => (
-            <div
+            <Link
               key={prod.id}
-              onClick={() => setSelectedProduct(prod)}
-              className="bg-white border border-stone-200/50 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 group cursor-pointer flex flex-col justify-between h-full relative"
+              href={`/products/${prod.id}`}
+              className="bg-white border border-stone-200/50 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 group cursor-pointer flex flex-col justify-between h-full relative text-left"
             >
               {/* Premium Discount Tag */}
               <div className="absolute top-2.5 left-2.5 z-10 bg-emerald-900 text-white text-[8px] font-black px-2.5 py-0.5 rounded uppercase tracking-wider">
@@ -218,11 +218,11 @@ export default function Home() {
                   <span className="text-sm font-black text-slate-900">₹{prod.currentPrice.toLocaleString()}</span>
                   <span className="text-[10px] text-slate-400 line-through font-medium">₹{prod.originalPrice.toLocaleString()}</span>
                 </div>
-                <button className="bg-emerald-50 text-emerald-805 border border-emerald-100/50 group-hover:bg-emerald-600 group-hover:text-white group-hover:border-emerald-600 px-3 py-1.5 rounded-xl text-[10px] font-black transition-all duration-300 shrink-0">
+                <span className="bg-emerald-50 text-emerald-805 border border-emerald-100/50 group-hover:bg-emerald-600 group-hover:text-white group-hover:border-emerald-600 px-3 py-1.5 rounded-xl text-[10px] font-black transition-all duration-300 shrink-0">
                   Enquire
-                </button>
+                </span>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </section>
@@ -279,7 +279,7 @@ export default function Home() {
           {/* Background Image */}
           <img 
             src="/d2c_agri_factory.png" 
-            alt="Uttam organic factory dispatch unit" 
+            alt="Greengrow Fertilizer factory dispatch unit" 
             className="absolute inset-0 w-full h-full object-cover" 
           />
           {/* Dark Gradient Mask for Text Contrast */}
@@ -340,10 +340,10 @@ export default function Home() {
 
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3.5">
           {bestSellers.map((prod) => (
-            <div
+            <Link
               key={prod.id}
-              onClick={() => setSelectedProduct(prod)}
-              className="bg-white border border-stone-200/50 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 group cursor-pointer flex flex-col justify-between h-full relative"
+              href={`/products/${prod.id}`}
+              className="bg-white border border-stone-200/50 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 group cursor-pointer flex flex-col justify-between h-full relative text-left"
             >
               {/* Premium Discount Tag */}
               <div className="absolute top-2.5 left-2.5 z-10 bg-emerald-900 text-white text-[8px] font-black px-2.5 py-0.5 rounded uppercase tracking-wider">
@@ -379,11 +379,11 @@ export default function Home() {
                   <span className="text-sm font-black text-slate-900">₹{prod.currentPrice.toLocaleString()}</span>
                   <span className="text-[10px] text-slate-400 line-through font-medium">₹{prod.originalPrice.toLocaleString()}</span>
                 </div>
-                <button className="bg-emerald-50 text-emerald-850 border border-emerald-100/50 group-hover:bg-emerald-600 group-hover:text-white group-hover:border-emerald-600 px-3 py-1.5 rounded-xl text-[10px] font-black transition-all duration-300 shrink-0">
+                <span className="bg-emerald-50 text-emerald-850 border border-emerald-100/50 group-hover:bg-emerald-600 group-hover:text-white group-hover:border-emerald-600 px-3 py-1.5 rounded-xl text-[10px] font-black transition-all duration-300 shrink-0">
                   Enquire
-                </button>
+                </span>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </section>

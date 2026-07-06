@@ -155,7 +155,7 @@ export default function DealerPage() {
                     required
                     value={formData.storeName}
                     onChange={handleInputChange}
-                    placeholder="e.g. Uttam Agri Agencies"
+                    placeholder="e.g. Greengrow Agri Agencies"
                     className="w-full bg-stone-50 text-slate-800 text-xs p-3 rounded-xl border border-stone-200 focus:outline-none focus:ring-1 focus:ring-emerald-600 focus:bg-white transition-all font-semibold"
                   />
                 </div>
@@ -209,7 +209,7 @@ export default function DealerPage() {
                     required
                     value={formData.cityState}
                     onChange={handleInputChange}
-                    placeholder="e.g. Bhopal, MP"
+                    placeholder="e.g. Indore, MP"
                     className="w-full bg-stone-50 text-slate-800 text-xs p-3 rounded-xl border border-stone-200 focus:outline-none focus:ring-1 focus:ring-emerald-600 focus:bg-white transition-all font-semibold"
                   />
                 </div>
@@ -259,7 +259,7 @@ export default function DealerPage() {
               <div className="bg-emerald-50 border border-emerald-500/10 rounded-xl p-3 flex gap-2.5 text-[10px] text-emerald-800">
                 <ShieldAlert className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
                 <span className="font-semibold leading-normal">
-                  By submitting this form, you authorize Uttam Organic to verify registration credentials (GSTIN/PAN) and contact you regarding business representation.
+                  By submitting this form, you authorize Greengrow Fertilizer to verify registration credentials (GSTIN/PAN) and contact you regarding business representation.
                 </span>
               </div>
 

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Send, CheckCircle2, Phone, Mail, MapPin, Clock } from "lucide-react";
+import { Send, CheckCircle2, Phone, Mail, MapPin, Clock, ShieldCheck, Users } from "lucide-react";
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -159,7 +159,7 @@ export default function ContactPage() {
                   required
                   value={formData.cityState}
                   onChange={handleInputChange}
-                  placeholder="e.g. Bhopal, MP"
+                  placeholder="e.g. Indore, MP"
                   className="w-full bg-stone-50 text-slate-800 text-xs p-3 rounded-xl border border-stone-200 focus:outline-none focus:ring-1 focus:ring-emerald-600 focus:bg-white transition-all font-semibold"
                 />
               </div>
@@ -201,7 +201,7 @@ export default function ContactPage() {
         {/* Info Cards (Spans 5 columns, loads second on mobile) */}
         <div className="md:col-span-5 space-y-6 order-2">
           <div className="bg-white border border-stone-200/50 rounded-2xl p-5 sm:p-6 shadow-sm space-y-6 text-left">
-            <h2 className="text-sm sm:text-base font-black text-slate-955 border-b border-stone-150 pb-3">Uttam Office Details</h2>
+            <h2 className="text-sm sm:text-base font-black text-slate-955 border-b border-stone-150 pb-3">Greengrow Office Details</h2>
             
             <div className="space-y-4">
               <div className="flex items-start gap-3">
@@ -211,8 +211,9 @@ export default function ContactPage() {
                 <div>
                   <span className="block text-[9px] font-black text-stone-400 uppercase tracking-wider">Corporate Headquarters</span>
                   <p className="text-xs font-bold text-slate-700 mt-0.5 leading-relaxed">
-                    Mx 175, E7 Extension, Arera Colony,<br />
-                    Bhopal - 462016, Madhya Pradesh, India
+                    A-103, Radhika Premier Building,<br />
+                    04 Radhika Palace Colony, Bombay Hospital to Tulsi Nagar Main Road,<br />
+                    Indore - 452010, Madhya Pradesh, India
                   </p>
                 </div>
               </div>
@@ -223,8 +224,8 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <span className="block text-[9px] font-black text-stone-400 uppercase tracking-wider">Call Support</span>
-                  <a href="tel:+917000528397" className="block text-xs font-bold text-slate-700 hover:text-emerald-600 mt-0.5">
-                    +91 7000528397
+                  <a href="tel:+918269108808" className="block text-xs font-bold text-slate-700 hover:text-emerald-600 mt-0.5">
+                    +91 8269108808
                   </a>
                   <span className="block text-[8px] text-stone-400">Direct sales line & dealership cell</span>
                 </div>
@@ -236,8 +237,8 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <span className="block text-[9px] font-black text-stone-400 uppercase tracking-wider">Email Inquiry</span>
-                  <a href="mailto:support@uttamorganic.com" className="block text-xs font-bold text-slate-700 hover:text-emerald-600 mt-0.5">
-                    support@uttamorganic.com
+                  <a href="mailto:greengrowfertilizer25@gmail.com" className="block text-xs font-bold text-slate-700 hover:text-emerald-600 mt-0.5">
+                    greengrowfertilizer25@gmail.com
                   </a>
                 </div>
               </div>
@@ -254,13 +255,47 @@ export default function ContactPage() {
                   </p>
                 </div>
               </div>
+
+              <div className="flex items-start gap-3 border-t border-stone-150 pt-4">
+                <div className="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
+                  <ShieldCheck className="w-4.5 h-4.5" />
+                </div>
+                <div>
+                  <span className="block text-[9px] font-black text-stone-400 uppercase tracking-wider">Corporate Registration</span>
+                  <p className="text-xs font-bold text-slate-700 mt-0.5">
+                    GREENGROW FERTILIZER PRIVATE LIMITED<br />
+                    <span className="text-[10px] text-stone-400 font-normal block mt-0.5">CIN: U20129MP2025PTC080802</span>
+                    <span className="text-[10px] text-stone-400 font-normal block">GSTIN: 23AAMCG6217C1ZX</span>
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-3">
+                <div className="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
+                  <Users className="w-4.5 h-4.5" />
+                </div>
+                <div>
+                  <span className="block text-[9px] font-black text-stone-400 uppercase tracking-wider">Board of Directors</span>
+                  <div className="text-xs font-bold text-slate-700 mt-0.5 space-y-2">
+                    <div>
+                      <p className="leading-tight">Mr. Sonu Agrawal</p>
+                      <span className="text-[10px] font-normal text-stone-400 block">Director</span>
+                      <a href="tel:+919993108808" className="text-[10px] text-emerald-600 hover:text-emerald-700 font-semibold mt-0.5 block">+91 9993108808</a>
+                    </div>
+                    <div>
+                      <p className="leading-tight">Mr. Mahesh Chandra</p>
+                      <span className="text-[10px] font-normal text-stone-400 block">Director</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
           {/* Interactive Google Map Iframe */}
           <div className="w-full h-[220px] rounded-2xl overflow-hidden border border-stone-200/50 relative shadow-sm">
             <iframe 
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3666.8624103197607!2d77.43391787612711!3d23.211656809756184!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x397c43c2272e51bb%3A0xe54d2459b9a67232!2sArera%20Colony%2C%20Bhopal%2C%20Madhya%20Pradesh%20462016!5e0!3m2!1sen!2sin!4v1719876543210!5m2!1sen!2sin" 
+              src="https://maps.google.com/maps?q=Radhika%20Premier%20Building%20Indore&t=&z=15&ie=UTF8&iwloc=&output=embed" 
               className="w-full h-full border-0" 
               allowFullScreen={true}
               loading="lazy" 

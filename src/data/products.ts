@@ -20,10 +20,10 @@ export interface Product {
 export const PRODUCTS: Product[] = [
   {
     id: "humic-fulvic-acid-98-drum",
-    name: "Uttam Activated Humic Acid + Fulvic Acid 98% (Drum Packing)",
+    name: "Greengrow Activated Humic Acid + Fulvic Acid 98% (Drum Packing)",
     category: "Fertilizers",
     subcategory: "Organic Soil Conditioner",
-    description: "Uttam Humic and Fulvic Acid 98% is a premium organic soil conditioner designed to improve soil aeration, enhance root growth, and maximize nutrient absorption from the soil.",
+    description: "Greengrow Humic and Fulvic Acid 98% is a premium organic soil conditioner designed to improve soil aeration, enhance root growth, and maximize nutrient absorption from the soil.",
     composition: "Humic Acid: 80%, Fulvic Acid: 18%, K2O: 12% (Water Soluble Active Extracts)",
     benefits: [
       "Accelerates root development and plant metabolism.",
@@ -41,7 +41,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: "bhumiraja-mycorrhiza",
-    name: "Uttam Bhumiraja Mycorrhiza Biofertilizer",
+    name: "Greengrow Bhumiraja Mycorrhiza Biofertilizer",
     category: "Fertilizers",
     subcategory: "Biofertilizers",
     description: "A highly concentrated Vesicular Arbuscular Mycorrhiza (VAM) formulation. It builds a symbiotic association with plant roots, expanding root surface area by up to 100 times to absorb critical minerals and water.",
@@ -62,7 +62,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: "seaweed-extract-liquid",
-    name: "Uttam Seaweed Extract Liquid Organic Fertilizer",
+    name: "Greengrow Seaweed Extract Liquid Organic Fertilizer",
     category: "Fertilizers",
     subcategory: "Liquid Growth Promoters",
     description: "Pure cold-water kelp extract rich in natural plant hormones (auxins, cytokinins, gibberellins), micronutrients, and amino acids to boost overall crop yields.",
@@ -83,7 +83,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: "npk-19-19-19",
-    name: "Uttam NPK 19:19:19 100% Water Soluble Fertilizer",
+    name: "Greengrow NPK 19:19:19 100% Water Soluble Fertilizer",
     category: "Fertilizers",
     subcategory: "N-P-K Solubles",
     description: "A balanced NPK fertilizer containing Nitrogen, Phosphorus, and Potassium in equal proportions. Ideal for early vegetative growth and establishing strong foundations in all crops.",
@@ -104,7 +104,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: "antivirus-viricide",
-    name: "Uttam Antivirus Viricide (Broad Spectrum)",
+    name: "Greengrow Antivirus Viricide (Broad Spectrum)",
     category: "Pesticides",
     subcategory: "Bio-Viricide",
     description: "An innovative natural viricide designed to manage leaf curl virus, mosaic virus, and other crop viral infections by enhancing systemic acquired resistance.",
@@ -125,7 +125,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: "chakraveer-chlorantraniliprole",
-    name: "Uttam Chakraveer (Chlorantraniliprole 18.5% SC)",
+    name: "Greengrow Chakraveer (Chlorantraniliprole 18.5% SC)",
     category: "Pesticides",
     subcategory: "Chemical Insecticide",
     description: "A highly effective insecticide offering long-duration control against lepidopteran pests, including stem borer, fruit borer, and diamondback moth.",
@@ -146,7 +146,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: "azodharma-fungicide",
-    name: "Uttam Azodharma Broad Spectrum Fungicide",
+    name: "Greengrow Azodharma Broad Spectrum Fungicide",
     category: "Fungicides",
     subcategory: "Systemic Fungicide",
     description: "A power-packed blend of Azoxystrobin and Difenoconazole, offering dual systemic action to treat and prevent early blight, powdery mildew, and anthracnose.",
@@ -167,7 +167,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: "cotton-suraksha-combo",
-    name: "Uttam Cotton Suraksha Combo (Soil Application)",
+    name: "Greengrow Cotton Suraksha Combo (Soil Application)",
     category: "Combos",
     subcategory: "Crop Combos",
     description: "Complete soil application kit containing organic growth boosters and biological root protection agents, specifically formulated for cotton crops.",

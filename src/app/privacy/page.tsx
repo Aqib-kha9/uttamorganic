@@ -22,7 +22,7 @@ export default function PrivacyPage() {
           </div>
           <div className="text-slate-600 text-sm leading-relaxed space-y-3">
             <p>
-              At Uttam Organic, accessible from support@uttamorganic.com, one of our main priorities is the privacy of our visitors. This Privacy Policy document contains types of information that is collected and recorded by Uttam Organic and how we use it.
+              At Greengrow Fertilizer, accessible from greengrowfertilizer25@gmail.com, one of our main priorities is the privacy of our visitors. This Privacy Policy document contains types of information that is collected and recorded by Greengrow Fertilizer and how we use it.
             </p>
             <h3 className="font-bold text-slate-900 text-sm">Information We Collect</h3>
             <p>
@@ -43,15 +43,15 @@ export default function PrivacyPage() {
           </div>
           <div className="text-slate-600 text-sm leading-relaxed space-y-3">
             <p>
-              By accessing this website, we assume you accept these terms and conditions. Do not continue to use Uttam Organic if you do not agree to take all of the terms and conditions stated on this page.
+              By accessing this website, we assume you accept these terms and conditions. Do not continue to use Greengrow Fertilizer if you do not agree to take all of the terms and conditions stated on this page.
             </p>
             <h3 className="font-bold text-slate-900 text-sm">Product Suitability</h3>
             <p>
-              Agrochemical treatments and fertilizer recommendations depend on local soil condition, ambient water purity, and ambient heat levels. Uttam Organic is not directly liable for crop losses resulting from wrong application dosages or off-label use. Please consult our agronomists for customized schedules.
+              Agrochemical treatments and fertilizer recommendations depend on local soil condition, ambient water purity, and ambient heat levels. Greengrow Fertilizer is not directly liable for crop losses resulting from wrong application dosages or off-label use. Please consult our agronomists for customized schedules.
             </p>
             <h3 className="font-bold text-slate-900 text-sm">Copyright</h3>
             <p>
-              Unless otherwise stated, Uttam Organic owns the intellectual property rights for all material on Uttam Organic. All intellectual property rights are reserved.
+              Unless otherwise stated, Greengrow Fertilizer owns the intellectual property rights for all material on Greengrow Fertilizer. All intellectual property rights are reserved.
             </p>
           </div>
         </section>

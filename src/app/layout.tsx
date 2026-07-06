@@ -16,12 +16,12 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  title: "Uttam Organic - Premium Agrochemicals & Bio-Fertilizers India",
-  description: "Uttam Organic is India's leading D2C brand offering premium organic fertilizers, chemical insecticides, fungicides, and customized crop combo sprays directly from factory to farm.",
-  keywords: "Uttam Organic, Katyayani, biofertilizer, humic acid, seaweed extract, chemical insecticide, fungicides, herbicides, Indian agriculture, organic farming",
-  authors: [{ name: "Uttam Organic Dev Team" }],
+  title: "Greengrow Fertilizer - Premium Agrochemicals & Bio-Fertilizers India",
+  description: "Greengrow Fertilizer is India's leading D2C brand offering premium organic fertilizers, chemical insecticides, fungicides, and customized crop combo sprays directly from factory to farm.",
+  keywords: "Greengrow Fertilizer, Greengrow, biofertilizer, humic acid, seaweed extract, chemical insecticide, fungicides, herbicides, Indian agriculture, organic farming",
+  authors: [{ name: "Greengrow Fertilizer Dev Team" }],
   openGraph: {
-    title: "Uttam Organic - Premium Agrochemicals & Bio-Fertilizers India",
+    title: "Greengrow Fertilizer - Premium Agrochemicals & Bio-Fertilizers India",
     description: "Premium chemical & organic crop protection products delivered directly to farmers with laboratory certification.",
     type: "website",
   }

@@ -27,7 +27,7 @@ export default function Footer() {
               <Leaf className="w-5 h-5 fill-current" />
             </div>
             <div>
-              <span className="text-base font-black tracking-tight text-slate-900 block">UTTAM ORGANIC</span>
+              <span className="text-base font-black tracking-tight text-slate-900 block">GREENGROW FERTILIZER</span>
               <span className="text-[9px] uppercase tracking-widest text-emerald-650 font-bold block -mt-1">D2C Agrochemicals</span>
             </div>
           </Link>
@@ -92,20 +92,21 @@ export default function Footer() {
             <div className="flex items-start gap-2.5">
               <MapPin className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
               <p className="leading-normal">
-                Mx 175, E7 Extension, Arera Colony,<br />
-                Bhopal - 462016, Madhya Pradesh, India
+                A-103, Radhika Premier Building,<br />
+                04 Radhika Palace Colony, Bombay Hospital to Tulsi Nagar Main Road,<br />
+                Indore - 452010, Madhya Pradesh, India
               </p>
             </div>
             <div className="flex items-center gap-2.5">
               <Phone className="w-4 h-4 text-emerald-600 shrink-0" />
-              <a href="tel:+917000528397" className="hover:text-emerald-650 transition-colors">
-                +91 7000528397
+              <a href="tel:+918269108808" className="hover:text-emerald-650 transition-colors">
+                +91 8269108808
               </a>
             </div>
             <div className="flex items-center gap-2.5">
               <Mail className="w-4 h-4 text-emerald-600 shrink-0" />
-              <a href="mailto:support@uttamorganic.com" className="hover:text-emerald-650 transition-colors">
-                support@uttamorganic.com
+              <a href="mailto:greengrowfertilizer25@gmail.com" className="hover:text-emerald-650 transition-colors">
+                greengrowfertilizer25@gmail.com
               </a>
             </div>
           </div>
@@ -115,11 +116,14 @@ export default function Footer() {
 
       {/* 3. Bottom Copyright and links */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 mt-6 border-t border-stone-200/60 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs font-bold text-stone-500">
-        <p>© {new Date().getFullYear()} Uttam Organic Private Limited. All rights reserved.</p>
+        <div className="text-center sm:text-left space-y-1">
+          <p>© {new Date().getFullYear()} GREENGROW FERTILIZER PRIVATE LIMITED. All rights reserved.</p>
+          <p className="text-[10px] text-stone-400 font-normal">CIN: U20129MP2025PTC080802 | GSTIN: 23AAMCG6217C1ZX</p>
+        </div>
         <div className="flex gap-5">
           <Link href="/privacy" className="hover:text-stone-700">Privacy Policy</Link>
           <Link href="/privacy" className="hover:text-stone-700">Terms of Service</Link>
-          <a href="https://wa.me/917000528397" target="_blank" rel="noopener noreferrer" className="text-emerald-650 hover:text-emerald-700 flex items-center gap-1">
+          <a href="https://wa.me/918269108808" target="_blank" rel="noopener noreferrer" className="text-emerald-650 hover:text-emerald-700 flex items-center gap-1">
             WhatsApp Support <ExternalLink className="w-3.5 h-3.5" />
           </a>
         </div>

@@ -232,7 +232,7 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
                           required
                           value={formData.cityState}
                           onChange={handleInputChange}
-                          placeholder="e.g. Bhopal, MP"
+                          placeholder="e.g. Indore, MP"
                           className="w-full bg-slate-50 text-slate-800 text-sm p-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:bg-white transition-all"
                         />
                       </div>

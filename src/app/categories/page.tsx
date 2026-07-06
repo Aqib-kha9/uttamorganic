@@ -80,7 +80,7 @@ export default function CategoriesPage() {
           className="bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-2.5 rounded-xl font-black text-[10px] uppercase tracking-wider shadow-sm transition-all text-center shrink-0 w-full sm:w-auto"
           onClick={(e) => {
             e.preventDefault();
-            alert("Uttam Organic Product Catalogue PDF Download started! (Mock download triggered successfully)");
+            alert("Greengrow Fertilizer Product Catalogue PDF Download started! (Mock download triggered successfully)");
           }}
         >
           Download PDF
