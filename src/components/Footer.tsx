@@ -23,9 +23,11 @@ export default function Footer() {
         {/* Column 1: Brand Info */}
         <div className="space-y-4 text-left">
           <Link href="/" className="flex items-center gap-2">
-            <div className="w-9 h-9 rounded-xl bg-emerald-600 flex items-center justify-center text-white shadow-sm shrink-0">
-              <Leaf className="w-5 h-5 fill-current" />
-            </div>
+            <img 
+              src="/assets/company_logo.png" 
+              alt="Greengrow Fertilizer Logo" 
+              className="h-12 sm:h-14 w-auto object-contain shrink-0" 
+            />
             <div>
               <span className="text-base font-black tracking-tight text-slate-900 block">GREENGROW FERTILIZER</span>
               <span className="text-[9px] uppercase tracking-widest text-emerald-650 font-bold block -mt-1">D2C Agrochemicals</span>

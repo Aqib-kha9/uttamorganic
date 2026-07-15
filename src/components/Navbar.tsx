@@ -35,9 +35,11 @@ export default function Navbar() {
           <div className="flex justify-between items-center w-full md:w-auto">
             {/* Logo */}
             <Link href="/" className="flex items-center gap-2 group shrink-0">
-              <div className="w-8 h-8 rounded-xl bg-emerald-600 flex items-center justify-center text-white shadow-sm shadow-emerald-700/10">
-                <Leaf className="w-4.5 h-4.5 fill-current" />
-              </div>
+              <img 
+                src="/assets/company_logo.png" 
+                alt="Greengrow Fertilizer Logo" 
+                className="h-8 sm:h-9 w-auto object-contain" 
+              />
               <div>
                 <span className="text-sm font-black tracking-tight text-slate-900 block leading-none">GREENGROW FERTILIZER</span>
                 <span className="text-[7px] uppercase tracking-widest text-emerald-650 font-extrabold block mt-0.5">Scientific Bio-Inputs</span>

@@ -6,11 +6,11 @@ import { CATEGORIES } from "@/data/products";
 
 export default function CategoriesPage() {
   const categoryImages = [
-    "https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?w=400&auto=format&fit=crop&q=80", // Fertilizers
-    "https://images.unsplash.com/photo-1592417817098-8f3d6eb19675?w=400&auto=format&fit=crop&q=80", // Pesticides
-    "https://images.unsplash.com/photo-1563514223741-21b455357c0e?w=400&auto=format&fit=crop&q=80", // Fungicides
-    "https://images.unsplash.com/photo-1500937386664-56d1dfef3854?w=400&auto=format&fit=crop&q=80", // Herbicides
-    "https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=400&auto=format&fit=crop&q=80"  // Combos
+    "/assets/product_1.jpeg", // Fertilizers
+    "/assets/product_2.jpeg", // Pesticides
+    "/assets/product_3.jpeg", // Fungicides
+    "/assets/product_4.jpeg", // Herbicides
+    "/assets/hero_1.jpeg"  // Combos
   ];
 
   return (

@@ -37,7 +37,7 @@ export const PRODUCTS: Product[] = [
     discount: 70,
     rating: 4.8,
     reviews: 80,
-    image: "/humic_acid_drum.png"
+    image: "/assets/product_1.jpeg"
   },
   {
     id: "bhumiraja-mycorrhiza",
@@ -58,7 +58,7 @@ export const PRODUCTS: Product[] = [
     discount: 53,
     rating: 4.9,
     reviews: 1117,
-    image: "/fertilizer_bag.png"
+    image: "/assets/product_2.jpeg"
   },
   {
     id: "seaweed-extract-liquid",
@@ -79,7 +79,7 @@ export const PRODUCTS: Product[] = [
     discount: 35,
     rating: 4.7,
     reviews: 176,
-    image: "/organic_liquid_bottle.png"
+    image: "/assets/product_3.jpeg"
   },
   {
     id: "npk-19-19-19",
@@ -100,7 +100,7 @@ export const PRODUCTS: Product[] = [
     discount: 50,
     rating: 4.6,
     reviews: 128,
-    image: "/fertilizer_bag.png"
+    image: "/assets/product_4.jpeg"
   },
   {
     id: "antivirus-viricide",
@@ -121,7 +121,7 @@ export const PRODUCTS: Product[] = [
     discount: 53,
     rating: 4.8,
     reviews: 1260,
-    image: "/organic_liquid_bottle.png"
+    image: "/assets/product_1.jpeg"
   },
   {
     id: "chakraveer-chlorantraniliprole",
@@ -142,7 +142,7 @@ export const PRODUCTS: Product[] = [
     discount: 61,
     rating: 4.9,
     reviews: 1135,
-    image: "/organic_liquid_bottle.png"
+    image: "/assets/product_2.jpeg"
   },
   {
     id: "azodharma-fungicide",
@@ -163,7 +163,7 @@ export const PRODUCTS: Product[] = [
     discount: 54,
     rating: 4.8,
     reviews: 287,
-    image: "/organic_liquid_bottle.png"
+    image: "/assets/product_3.jpeg"
   },
   {
     id: "cotton-suraksha-combo",
@@ -184,7 +184,7 @@ export const PRODUCTS: Product[] = [
     discount: 63,
     rating: 4.9,
     reviews: 92,
-    image: "/fertilizer_bag.png"
+    image: "/assets/product_4.jpeg"
   }
 ];
 

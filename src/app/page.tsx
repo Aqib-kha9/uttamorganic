@@ -9,27 +9,21 @@ import ProductModal from "@/components/ProductModal";
 export default function Home() {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [currentSlide, setCurrentSlide] = useState(0);
-
   const slides = [
     {
-      image: "https://images.unsplash.com/photo-1500937386664-56d1dfef3854?w=1200&auto=format&fit=crop&q=80",
+      image: "/assets/hero_1.jpeg",
       headline: <>Get Free <span className="text-emerald-400">Parichay Combo</span> Direct From Factory</>,
       subtext: "Save up to 70% middleman commission on certified bio-inputs."
     },
     {
-      image: "https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?w=1200&auto=format&fit=crop&q=80",
+      image: "/assets/hero_2.jpeg",
       headline: <>Protect Crops with <span className="text-emerald-400">Certified Bio-Pesticides</span></>,
       subtext: "Organic control against sucking pests, thrips, and mites."
     },
     {
-      image: "https://images.unsplash.com/photo-1530595467537-0b5996c41f2d?w=1200&auto=format&fit=crop&q=80",
+      image: "/assets/hero_3.jpeg",
       headline: <>NABL Lab-Tested <span className="text-emerald-400">Scientific Formulations</span></>,
       subtext: "Synthesized in central chemical units under strict double-seal guarantees."
-    },
-    {
-      image: "https://images.unsplash.com/photo-1535379453347-1ffd615e2108?w=1200&auto=format&fit=crop&q=80",
-      headline: <>Accelerate Root Density with <span className="text-emerald-400">98% Humic Acid</span></>,
-      subtext: "Increase white root development and soil aeration naturally for higher yields."
     }
   ];
 
@@ -76,7 +70,7 @@ export default function Home() {
     <div className="space-y-8 pb-24 bg-stone-50/50">
       {/* 1. Mobile App Hero Promotion Banner */}
       <section className="w-full px-4 pt-3 relative">
-        <div className="relative rounded-2xl overflow-hidden shadow-sm h-46 sm:h-58 md:h-[330px] bg-stone-900 w-full flex items-center">
+        <div className="relative rounded-2xl overflow-hidden shadow-sm h-64 sm:h-96 md:h-[460px] bg-stone-900 w-full flex items-center">
           {/* Sliding Background Image */}
           <div 
             className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-all duration-1000 ease-in-out"
@@ -85,33 +79,33 @@ export default function Home() {
           <div className="absolute inset-0 bg-black/40" />
           
           {/* Centered Main Headline at the Top */}
-          <div className="absolute top-4 sm:top-6 inset-x-0 mx-auto text-center px-6 max-w-3xl z-10">
-            <h1 className="text-base sm:text-2xl md:text-3xl font-black text-white leading-tight">
+          <div className="absolute top-8 sm:top-16 md:top-24 inset-x-0 mx-auto text-center px-6 max-w-3xl z-10">
+            <h1 className="text-xl sm:text-4xl md:text-5xl font-black text-white leading-tight">
               {slides[currentSlide].headline}
             </h1>
           </div>
 
           {/* Carousel Navigation Dot Indicators */}
-          <div className="absolute bottom-12 sm:bottom-16 inset-x-0 mx-auto flex justify-center gap-1.5 z-20">
+          <div className="absolute bottom-16 sm:bottom-24 md:bottom-28 inset-x-0 mx-auto flex justify-center gap-1.5 z-20">
             {slides.map((_, idx) => (
               <button
                 key={idx}
                 onClick={() => setCurrentSlide(idx)}
-                className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${
-                  currentSlide === idx ? "bg-white w-4" : "bg-white/40 hover:bg-white/60"
+                className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                  currentSlide === idx ? "bg-white w-5" : "bg-white/40 hover:bg-white/60"
                 }`}
               />
             ))}
           </div>
 
           {/* Bottom Row Layout: Subtext on bottom-left, Button on bottom-right */}
-          <div className="absolute bottom-3 left-4 right-4 sm:bottom-4 sm:left-6 sm:right-6 z-10 flex items-center justify-between gap-4 border-t border-white/10 pt-2.5">
-            <p className="text-stone-300 text-[9px] sm:text-xs font-bold leading-none">
+          <div className="absolute bottom-4 left-4 right-4 sm:bottom-6 sm:left-8 sm:right-8 z-10 flex items-center justify-between gap-4 border-t border-white/10 pt-3.5">
+            <p className="text-stone-300 text-xs sm:text-sm font-bold leading-none">
               {slides[currentSlide].subtext}
             </p>
             <Link 
               href="/products" 
-              className="bg-emerald-600 hover:bg-emerald-700 text-white text-[9px] sm:text-xs font-black uppercase tracking-wider px-4.5 py-2 rounded-xl transition-all shadow-md shrink-0"
+              className="bg-emerald-600 hover:bg-emerald-700 text-white text-xs sm:text-sm font-black uppercase tracking-wider px-5 py-2.5 rounded-xl transition-all shadow-md shrink-0"
             >
               Claim Now
             </Link>
@@ -129,11 +123,11 @@ export default function Home() {
         <div className="flex gap-3.5 overflow-x-auto pb-3 scrollbar-none snap-x snap-mandatory md:grid md:grid-cols-5 md:gap-4 md:overflow-visible">
           {CATEGORIES.map((cat, idx) => {
             const localImages = [
-              "/cat_fertilizer.png",
-              "/cat_pesticide.png",
-              "/cat_fungicide.png",
-              "/cat_herbicide.png",
-              "/cat_combo.png"
+              "/assets/product_1.jpeg",
+              "/assets/product_2.jpeg",
+              "/assets/product_3.jpeg",
+              "/assets/product_4.jpeg",
+              "/assets/hero_1.jpeg"
             ];
             const imgSrc = localImages[idx] || localImages[0];
             return (
@@ -236,14 +230,14 @@ export default function Home() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3.5">
           {(() => {
             const cropImages = [
-              "https://images.unsplash.com/photo-1595855759920-86582396756a?w=400&auto=format&fit=crop&q=80", // Tomato
-              "https://images.unsplash.com/photo-1594140026217-1a403063f2be?w=400&auto=format&fit=crop&q=80", // Cotton
-              "https://images.unsplash.com/photo-1536657464919-8925412f9b6e?w=400&auto=format&fit=crop&q=80", // Paddy
-              "https://images.unsplash.com/photo-1588166524941-3bf61a9c41db?w=400&auto=format&fit=crop&q=80", // Chilli
-              "https://images.unsplash.com/photo-1528183429752-a97d0bf99b5a?w=400&auto=format&fit=crop&q=80", // Sugarcane
-              "https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?w=400&auto=format&fit=crop&q=80", // Wheat
-              "https://images.unsplash.com/photo-1601004890684-d8cbf643f5f2?w=400&auto=format&fit=crop&q=80", // Brinjal
-              "https://images.unsplash.com/photo-1553279768-865429fa0078?w=400&auto=format&fit=crop&q=80"  // Mango
+              "/assets/hero_1.jpeg", // Tomato
+              "/assets/hero_2.jpeg", // Cotton
+              "/assets/hero_3.jpeg", // Paddy
+              "/assets/product_1.jpeg", // Chilli
+              "/assets/product_2.jpeg", // Sugarcane
+              "/assets/product_3.jpeg", // Wheat
+              "/assets/product_4.jpeg", // Brinjal
+              "/assets/hero_1.jpeg"  // Mango
             ];
 
             return CROPS.map((crop, idx) => (
@@ -278,7 +272,7 @@ export default function Home() {
         <div className="relative rounded-3xl overflow-hidden shadow-sm h-56 sm:h-64 md:h-[260px] bg-stone-900 w-full flex items-end p-4.5 sm:p-8">
           {/* Background Image */}
           <img 
-            src="/d2c_agri_factory.png" 
+            src="/assets/hero_2.jpeg" 
             alt="Greengrow Fertilizer factory dispatch unit" 
             className="absolute inset-0 w-full h-full object-cover" 
           />
@@ -398,9 +392,9 @@ export default function Home() {
         <div className="flex gap-4 overflow-x-auto pb-3.5 scrollbar-none snap-x snap-mandatory md:grid md:grid-cols-3 md:gap-8 md:overflow-visible">
           {(() => {
             const blogImages = [
-              "https://images.unsplash.com/photo-1593113598332-cd288d649433?w=500&auto=format&fit=crop&q=80", // Direct to farm
-              "https://images.unsplash.com/photo-1599599810769-bcde5a160d32?w=500&auto=format&fit=crop&q=80", // Soybean
-              "https://images.unsplash.com/photo-1563514223741-21b455357c0e?w=500&auto=format&fit=crop&q=80"  // Pest spray
+              "/assets/hero_3.jpeg", // Direct to farm
+              "/assets/product_1.jpeg", // Soybean
+              "/assets/product_2.jpeg"  // Pest spray
             ];
 
             return blogs.map((blog, idx) => (
