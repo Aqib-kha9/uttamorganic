@@ -75,7 +75,7 @@ export default function Home() {
     <div className="space-y-8 pb-24 bg-stone-50/50">
       {/* 1. Mobile App Hero Promotion Banner */}
       <section className="w-full px-4 pt-3 relative md:h-auto">
-        <div className="relative rounded-2xl overflow-hidden shadow-sm h-[calc(100vh-260px)] md:h-[calc(100vh-100px)] bg-stone-900 w-full flex items-center">
+        <div className="relative rounded-2xl overflow-hidden shadow-sm h-[calc(100vh-350px)] md:h-[calc(100vh-88px)] bg-stone-900 w-full flex items-center">
           {/* Sliding Background Image */}
           <div 
             className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-all duration-1000 ease-in-out"
@@ -119,7 +119,7 @@ export default function Home() {
       </section>
       
       {/* 2. E-Commerce Premium Category Cards Slider/Grid */}
-      <section className="w-full px-4 space-y-4 max-w-7xl mx-auto">
+      <section className="w-full px-4 space-y-4 max-w-7xl mx-auto !mt-3">
         <div>
           <h2 className="text-base sm:text-2xl font-black text-slate-900 font-sans">Shop By Category</h2>
         </div>
