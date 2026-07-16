@@ -6,7 +6,7 @@ import { CATEGORIES } from "@/data/products";
 
 export default function CategoriesPage() {
   const categoryImages = [
-    "/assets/product_1.jpeg", // Fertilizers
+    "/assets/hero_2.jpeg", // Fertilizers
     "/assets/product_2.jpeg", // Pesticides
     "/assets/product_3.jpeg", // Fungicides
     "/assets/product_4.jpeg", // Herbicides

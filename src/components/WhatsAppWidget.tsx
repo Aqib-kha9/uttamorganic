@@ -1,10 +1,16 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import { MessageCircle } from "lucide-react";
 
 export default function WhatsAppWidget() {
+  const pathname = usePathname();
   const message = encodeURIComponent("Hello Greengrow Fertilizer! I am interested in your products and would like to receive product catalogues and dealer options.");
   const whatsappUrl = `https://wa.me/918269108808?text=${message}`;
+
+  if (pathname === "/") {
+    return null;
+  }
 
   return (
     <div className="hidden md:block fixed bottom-6 right-6 z-50">

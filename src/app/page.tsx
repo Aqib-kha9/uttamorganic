@@ -24,6 +24,11 @@ export default function Home() {
       image: "/assets/hero_3.jpeg",
       headline: <>NABL Lab-Tested <span className="text-emerald-400">Scientific Formulations</span></>,
       subtext: "Synthesized in central chemical units under strict double-seal guarantees."
+    },
+    {
+      image: "/assets/product_3.jpeg",
+      headline: <>Premium Organic <span className="text-emerald-400">Soil Conditioners & Nutrients</span></>,
+      subtext: "Scientific formulations to boost root health and overall crop yield."
     }
   ];
 
@@ -67,10 +72,10 @@ export default function Home() {
   ];
 
   return (
-    <div className="space-y-8 pb-24 bg-stone-50/50">
+    <div className="flex flex-col md:block h-[calc(100vh-120px)] md:h-auto space-y-4 md:space-y-8 pb-4 md:pb-24 bg-stone-50/50 overflow-hidden md:overflow-visible">
       {/* 1. Mobile App Hero Promotion Banner */}
-      <section className="w-full px-4 pt-3 relative">
-        <div className="relative rounded-2xl overflow-hidden shadow-sm h-64 sm:h-96 md:h-[460px] bg-stone-900 w-full flex items-center">
+      <section className="w-full px-4 pt-3 relative flex-grow flex flex-col md:block md:h-auto">
+        <div className="relative rounded-2xl overflow-hidden shadow-sm flex-grow md:flex-none h-full md:h-[calc(100vh-100px)] bg-stone-900 w-full flex items-center">
           {/* Sliding Background Image */}
           <div 
             className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-all duration-1000 ease-in-out"
@@ -123,7 +128,7 @@ export default function Home() {
         <div className="flex gap-3.5 overflow-x-auto pb-3 scrollbar-none snap-x snap-mandatory md:grid md:grid-cols-5 md:gap-4 md:overflow-visible">
           {CATEGORIES.map((cat, idx) => {
             const localImages = [
-              "/assets/product_1.jpeg",
+              "/assets/hero_2.jpeg",
               "/assets/product_2.jpeg",
               "/assets/product_3.jpeg",
               "/assets/product_4.jpeg",
@@ -161,7 +166,7 @@ export default function Home() {
       </section>
 
       {/* 4. Best Seller/Featured Products - E-Commerce App Feed (2-Column Grid on Mobile) */}
-      <section className="max-w-7xl mx-auto px-4 space-y-4">
+      <section className="hidden md:block max-w-7xl mx-auto px-4 space-y-4">
         <div className="flex justify-between items-end">
           <div>
             <h2 className="text-base sm:text-2xl font-black text-slate-900">Recommended Products</h2>
@@ -222,7 +227,7 @@ export default function Home() {
       </section>
 
       {/* 5. Shop By Crop - Premium Interactive Cards Grid */}
-      <section className="max-w-7xl mx-auto px-4 space-y-4">
+      <section className="hidden md:block max-w-7xl mx-auto px-4 space-y-4">
         <div>
           <h2 className="text-base sm:text-2xl font-black text-slate-900">Customized Schedules By Crops</h2>
         </div>
@@ -233,7 +238,7 @@ export default function Home() {
               "/assets/hero_1.jpeg", // Tomato
               "/assets/hero_2.jpeg", // Cotton
               "/assets/hero_3.jpeg", // Paddy
-              "/assets/product_1.jpeg", // Chilli
+              "/assets/hero_2.jpeg", // Chilli
               "/assets/product_2.jpeg", // Sugarcane
               "/assets/product_3.jpeg", // Wheat
               "/assets/product_4.jpeg", // Brinjal
@@ -268,7 +273,7 @@ export default function Home() {
       </section>
 
       {/* 6. D2C Feature Section - Mobile-First Unified Image Overlay Card */}
-      <section className="max-w-7xl mx-auto px-4">
+      <section className="hidden md:block max-w-7xl mx-auto px-4">
         <div className="relative rounded-3xl overflow-hidden shadow-sm h-56 sm:h-64 md:h-[260px] bg-stone-900 w-full flex items-end p-4.5 sm:p-8">
           {/* Background Image */}
           <img 
@@ -322,7 +327,7 @@ export default function Home() {
         </div>
       </section>
       {/* 6.2 Best Seller Products Feed */}
-      <section className="max-w-7xl mx-auto px-4 space-y-4">
+      <section className="hidden md:block max-w-7xl mx-auto px-4 space-y-4">
         <div className="flex justify-between items-end">
           <div>
             <h2 className="text-base sm:text-2xl font-black text-slate-900">Best Seller Solubles</h2>
@@ -383,7 +388,7 @@ export default function Home() {
       </section>
 
       {/* 7. Agricultural Blogs - Premium Editorial Grid */}
-      <section className="max-w-7xl mx-auto px-4 space-y-8">
+      <section className="hidden md:block max-w-7xl mx-auto px-4 space-y-8">
         <div className="text-left space-y-1">
           <h2 className="text-base sm:text-2xl font-black text-slate-900">Agri Advisor & News</h2>
           <p className="text-stone-500 text-xs sm:text-sm">Professional advice on crop safety, organic nutrients, and seasonal farming tips.</p>
@@ -393,7 +398,7 @@ export default function Home() {
           {(() => {
             const blogImages = [
               "/assets/hero_3.jpeg", // Direct to farm
-              "/assets/product_1.jpeg", // Soybean
+              "/assets/hero_1.jpeg", // Soybean
               "/assets/product_2.jpeg"  // Pest spray
             ];
 
