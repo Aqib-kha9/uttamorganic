@@ -72,10 +72,10 @@ export default function Home() {
   ];
 
   return (
-    <div className="flex flex-col md:block h-[calc(100vh-120px)] md:h-auto space-y-4 md:space-y-8 pb-4 md:pb-24 bg-stone-50/50 overflow-hidden md:overflow-visible">
+    <div className="space-y-8 pb-24 bg-stone-50/50">
       {/* 1. Mobile App Hero Promotion Banner */}
-      <section className="w-full px-4 pt-3 relative flex-grow flex flex-col md:block md:h-auto">
-        <div className="relative rounded-2xl overflow-hidden shadow-sm flex-grow md:flex-none h-full md:h-[calc(100vh-100px)] bg-stone-900 w-full flex items-center">
+      <section className="w-full px-4 pt-3 relative md:h-auto">
+        <div className="relative rounded-2xl overflow-hidden shadow-sm h-[calc(100vh-260px)] md:h-[calc(100vh-100px)] bg-stone-900 w-full flex items-center">
           {/* Sliding Background Image */}
           <div 
             className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-all duration-1000 ease-in-out"
@@ -166,7 +166,7 @@ export default function Home() {
       </section>
 
       {/* 4. Best Seller/Featured Products - E-Commerce App Feed (2-Column Grid on Mobile) */}
-      <section className="hidden md:block max-w-7xl mx-auto px-4 space-y-4">
+      <section className="max-w-7xl mx-auto px-4 space-y-4">
         <div className="flex justify-between items-end">
           <div>
             <h2 className="text-base sm:text-2xl font-black text-slate-900">Recommended Products</h2>
@@ -227,7 +227,7 @@ export default function Home() {
       </section>
 
       {/* 5. Shop By Crop - Premium Interactive Cards Grid */}
-      <section className="hidden md:block max-w-7xl mx-auto px-4 space-y-4">
+      <section className="max-w-7xl mx-auto px-4 space-y-4">
         <div>
           <h2 className="text-base sm:text-2xl font-black text-slate-900">Customized Schedules By Crops</h2>
         </div>
@@ -273,7 +273,7 @@ export default function Home() {
       </section>
 
       {/* 6. D2C Feature Section - Mobile-First Unified Image Overlay Card */}
-      <section className="hidden md:block max-w-7xl mx-auto px-4">
+      <section className="max-w-7xl mx-auto px-4">
         <div className="relative rounded-3xl overflow-hidden shadow-sm h-56 sm:h-64 md:h-[260px] bg-stone-900 w-full flex items-end p-4.5 sm:p-8">
           {/* Background Image */}
           <img 
@@ -327,7 +327,7 @@ export default function Home() {
         </div>
       </section>
       {/* 6.2 Best Seller Products Feed */}
-      <section className="hidden md:block max-w-7xl mx-auto px-4 space-y-4">
+      <section className="max-w-7xl mx-auto px-4 space-y-4">
         <div className="flex justify-between items-end">
           <div>
             <h2 className="text-base sm:text-2xl font-black text-slate-900">Best Seller Solubles</h2>
@@ -388,7 +388,7 @@ export default function Home() {
       </section>
 
       {/* 7. Agricultural Blogs - Premium Editorial Grid */}
-      <section className="hidden md:block max-w-7xl mx-auto px-4 space-y-8">
+      <section className="max-w-7xl mx-auto px-4 space-y-8">
         <div className="text-left space-y-1">
           <h2 className="text-base sm:text-2xl font-black text-slate-900">Agri Advisor & News</h2>
           <p className="text-stone-500 text-xs sm:text-sm">Professional advice on crop safety, organic nutrients, and seasonal farming tips.</p>
