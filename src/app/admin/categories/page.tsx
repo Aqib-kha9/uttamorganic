@@ -1,0 +1,106 @@
+"use client";
+
+import { useState } from "react";
+import { Plus, Pencil, Trash2 } from "lucide-react";
+import { CATEGORY_ITEMS, type CategoryItem } from "@/data/adminContent";
+import Modal, { Field, ImageField, SaveFooter, inputCls } from "@/components/admin/Modal";
+
+export default function CategoriesManager() {
+    const [items, setItems] = useState<CategoryItem[]>(CATEGORY_ITEMS);
+    const [open, setOpen] = useState(false);
+    const [editing, setEditing] = useState<CategoryItem | null>(null);
+    const [form, setForm] = useState<CategoryItem>({ id: "", name: "", count: 0, desc: "", image: "" });
+
+    const openNew = () => {
+        setEditing(null);
+        setForm({ id: `cat-${Date.now()}`, name: "", count: 0, desc: "", image: "" });
+        setOpen(true);
+    };
+    const openEdit = (c: CategoryItem) => {
+        setEditing(c);
+        setForm({ ...c });
+        setOpen(true);
+    };
+    const save = () => {
+        if (editing) setItems((p) => p.map((c) => (c.id === editing.id ? form : c)));
+        else setItems((p) => [...p, form]);
+        setOpen(false);
+    };
+    const remove = (id: string) => {
+        if (confirm("Delete this category?")) setItems((p) => p.filter((c) => c.id !== id));
+    };
+
+    return (
+        <div className="space-y-6">
+            <div className="flex items-center justify-between">
+                <div>
+                    <h1 className="font-display text-2xl font-extrabold tracking-tight text-slate-900">Categories</h1>
+                    <p className="text-sm text-slate-500">Manage the "Shop by Categories" tiles on the homepage.</p>
+                </div>
+                <button onClick={openNew} className="inline-flex items-center gap-2 rounded-xl bg-emerald-650 px-4 py-2.5 text-sm font-bold text-white shadow-lg shadow-emerald-650/20 hover:bg-emerald-750">
+                    <Plus className="h-4 w-4" /> Add Category
+                </button>
+            </div>
+
+            <div className="overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm">
+                <table className="w-full text-left text-sm">
+                    <thead className="border-b border-stone-100 bg-stone-50 text-xs uppercase tracking-wide text-slate-500">
+                        <tr>
+                            <th className="px-4 py-3 font-bold">Image</th>
+                            <th className="px-4 py-3 font-bold">Name</th>
+                            <th className="px-4 py-3 font-bold">Products</th>
+                            <th className="px-4 py-3 font-bold">Description</th>
+                            <th className="px-4 py-3 text-right font-bold">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody className="divide-y divide-stone-100">
+                        {items.map((c) => (
+                            <tr key={c.id} className="hover:bg-stone-50/60">
+                                <td className="px-4 py-3">
+                                    <div className="h-12 w-12 overflow-hidden rounded-xl bg-stone-100">
+                                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                                        <img src={c.image} alt={c.name} className="h-full w-full object-cover" />
+                                    </div>
+                                </td>
+                                <td className="px-4 py-3 font-bold text-slate-900">{c.name}</td>
+                                <td className="px-4 py-3 text-slate-600">{c.count}</td>
+                                <td className="px-4 py-3 text-slate-500">{c.desc}</td>
+                                <td className="px-4 py-3">
+                                    <div className="flex justify-end gap-2">
+                                        <button onClick={() => openEdit(c)} className="rounded-lg border border-stone-200 p-2 text-slate-600 hover:bg-stone-50">
+                                            <Pencil className="h-4 w-4" />
+                                        </button>
+                                        <button onClick={() => remove(c.id)} className="rounded-lg border border-rose-200 p-2 text-rose-600 hover:bg-rose-50">
+                                            <Trash2 className="h-4 w-4" />
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+
+            <Modal
+                open={open}
+                title={editing ? "Edit Category" : "Add Category"}
+                subtitle="Shown in the Shop by Categories grid"
+                onClose={() => setOpen(false)}
+                footer={<SaveFooter onClose={() => setOpen(false)} isEdit={!!editing} onSave={save} />}
+            >
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                    <Field label="Category Name">
+                        <input className={inputCls} value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} placeholder="Fertilizers" />
+                    </Field>
+                    <Field label="Product Count">
+                        <input type="number" className={inputCls} value={form.count} onChange={(e) => setForm({ ...form, count: Number(e.target.value) })} placeholder="18" />
+                    </Field>
+                    <Field label="Description" full>
+                        <input className={inputCls} value={form.desc} onChange={(e) => setForm({ ...form, desc: e.target.value })} placeholder="Organic, NPK Solubles, Micronutrients & Biofertilizers" />
+                    </Field>
+                    <ImageField label="Category Image" value={form.image} onChange={(v) => setForm({ ...form, image: v })} />
+                </div>
+            </Modal>
+        </div>
+    );
+}

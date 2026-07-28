@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Outfit } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
-import WhatsAppWidget from "@/components/WhatsAppWidget";
+import AppChrome from "@/components/AppChrome";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -35,12 +33,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${outfit.variable} h-full antialiased scroll-smooth`}>
       <body className="min-h-full bg-slate-50 text-slate-900 flex flex-col font-sans">
-        <Navbar />
-        <main className="flex-grow pb-16 md:pb-0">
-          {children}
-        </main>
-        <Footer />
-        <WhatsAppWidget />
+        <AppChrome>{children}</AppChrome>
       </body>
     </html>
   );
