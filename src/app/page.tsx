@@ -168,43 +168,7 @@ export default function Home() {
         </section>
       </div>
 
-      {/* Shop By Category */}
-      <section className="w-full px-4 space-y-4 max-w-7xl mx-auto">
-        <div>
-          <h2 className="text-base sm:text-2xl font-black text-slate-900 font-sans">Shop By Category</h2>
-        </div>
-
-        {/* Mobile: Horizontal Scroll Slider | Desktop: Grid */}
-        <div className="flex gap-3.5 overflow-x-auto pb-3 scrollbar-none snap-x snap-mandatory md:grid md:grid-cols-5 md:gap-4 md:overflow-visible">
-          {categories.map((cat) => {
-            const imgSrc = cat.image;
-            return (
-              <Link
-                key={cat.name}
-                href={`/products?category=${cat.name}`}
-                className="relative rounded-xl overflow-hidden shadow-sm h-24 sm:h-44 w-[110px] md:w-full shrink-0 snap-start flex items-end group cursor-pointer border border-stone-200/50"
-              >
-                <img
-                  src={imgSrc}
-                  alt={cat.name}
-                  className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-stone-950 via-stone-900/40 to-transparent group-hover:via-stone-900/50 transition-colors" />
-                <div className="relative z-10 p-2.5 space-y-0.5 w-full">
-                  <span className="text-[7px] font-black text-emerald-400 uppercase tracking-widest block">
-                    {cat.count} Products
-                  </span>
-                  <h3 className="text-[10px] sm:text-sm font-black text-white leading-tight">
-                    {cat.name}
-                  </h3>
-                </div>
-              </Link>
-            );
-          })}
-        </div>
-      </section>
-
-      {/* 5. Shop By Crop - Premium Interactive Cards Grid */}
+       {/* 5. Shop By Crop - Premium Interactive Cards Grid */}
       <section className="max-w-7xl mx-auto px-4 space-y-4">
         <div>
           <h2 className="text-base sm:text-2xl font-black text-slate-900">Customized Schedules By Crops</h2>
@@ -250,55 +214,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 6. D2C Feature Section - Mobile-First Unified Image Overlay Card */}
-      <section className="max-w-7xl mx-auto px-4">
-        <div className="relative rounded-3xl overflow-hidden shadow-sm h-56 sm:h-64 md:h-[260px] bg-stone-900 w-full flex items-end p-4.5 sm:p-8">
-          {/* Background Image */}
-          <img
-            src={d2c.image}
-            alt="Greengrow Fertilizer factory dispatch unit"
-            className="absolute inset-0 w-full h-full object-cover"
-          />
-          {/* Dark Gradient Mask for Text Contrast */}
-          <div className="absolute inset-0 bg-gradient-to-t from-stone-950 via-stone-900/60 to-transparent" />
-
-          {/* Overlay Typography Container */}
-          <div className="relative z-10 max-w-2xl space-y-2.5 text-white text-left">
-            <div className="space-y-0.5">
-              <span className="text-[8px] sm:text-[9px] font-black text-emerald-450 uppercase tracking-widest block">
-                {d2c.badge}
-              </span>
-              <h2 className="text-sm sm:text-xl md:text-2xl font-black leading-tight">
-                {d2c.heading}
-              </h2>
-            </div>
-
-            <p className="text-stone-300 text-[9px] sm:text-xs leading-normal max-w-xl font-medium">
-              {d2c.description}
-            </p>
-
-            {/* Compact Horizontal Row for Mobile */}
-            <div className="flex flex-wrap gap-x-3.5 gap-y-1.5 text-[8px] sm:text-[10px] font-black text-emerald-400">
-              {d2c.bullets.map((bullet) => (
-                <span key={bullet} className="flex items-center gap-1">
-                  <span className="w-1 h-1 rounded-full bg-emerald-400 shrink-0" />
-                  {bullet}
-                </span>
-              ))}
-            </div>
-
-            <div className="pt-0.5">
-              <Link
-                href="/about"
-                className="bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-2.5 rounded-xl font-black text-[9px] sm:text-xs uppercase tracking-wider inline-block shadow-md transition-all duration-300"
-              >
-                {d2c.ctaText}
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
-      {/* 6.2 Best Seller Products Feed */}
+       {/* 6.2 Best Seller Products Feed */}
       <section className="max-w-7xl mx-auto px-4 space-y-4">
         <div className="flex justify-between items-end">
           <div>
@@ -354,6 +270,94 @@ export default function Home() {
           ))}
         </div>
       </section>
+
+      {/* Shop By Category */}
+      <section className="w-full px-4 space-y-4 max-w-7xl mx-auto">
+        <div>
+          <h2 className="text-base sm:text-2xl font-black text-slate-900 font-sans">Shop By Category</h2>
+        </div>
+
+        {/* Mobile: Horizontal Scroll Slider | Desktop: Grid */}
+        <div className="flex gap-3.5 overflow-x-auto pb-3 scrollbar-none snap-x snap-mandatory md:grid md:grid-cols-5 md:gap-4 md:overflow-visible">
+          {categories.map((cat) => {
+            const imgSrc = cat.image;
+            return (
+              <Link
+                key={cat.name}
+                href={`/products?category=${cat.name}`}
+                className="relative rounded-xl overflow-hidden shadow-sm h-24 sm:h-44 w-[110px] md:w-full shrink-0 snap-start flex items-end group cursor-pointer border border-stone-200/50"
+              >
+                <img
+                  src={imgSrc}
+                  alt={cat.name}
+                  className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-stone-950 via-stone-900/40 to-transparent group-hover:via-stone-900/50 transition-colors" />
+                <div className="relative z-10 p-2.5 space-y-0.5 w-full">
+                  <span className="text-[7px] font-black text-emerald-400 uppercase tracking-widest block">
+                    {cat.count} Products
+                  </span>
+                  <h3 className="text-[10px] sm:text-sm font-black text-white leading-tight">
+                    {cat.name}
+                  </h3>
+                </div>
+              </Link>
+            );
+          })}
+        </div>
+      </section>
+
+     
+
+      {/* 6. D2C Feature Section - Mobile-First Unified Image Overlay Card */}
+      <section className="max-w-7xl mx-auto px-4">
+        <div className="relative rounded-3xl overflow-hidden shadow-sm h-56 sm:h-64 md:h-[260px] bg-stone-900 w-full flex items-end p-4.5 sm:p-8">
+          {/* Background Image */}
+          <img
+            src={d2c.image}
+            alt="Greengrow Fertilizer factory dispatch unit"
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+          {/* Dark Gradient Mask for Text Contrast */}
+          <div className="absolute inset-0 bg-gradient-to-t from-stone-950 via-stone-900/60 to-transparent" />
+
+          {/* Overlay Typography Container */}
+          <div className="relative z-10 max-w-2xl space-y-2.5 text-white text-left">
+            <div className="space-y-0.5">
+              <span className="text-[8px] sm:text-[9px] font-black text-emerald-450 uppercase tracking-widest block">
+                {d2c.badge}
+              </span>
+              <h2 className="text-sm sm:text-xl md:text-2xl font-black leading-tight">
+                {d2c.heading}
+              </h2>
+            </div>
+
+            <p className="text-stone-300 text-[9px] sm:text-xs leading-normal max-w-xl font-medium">
+              {d2c.description}
+            </p>
+
+            {/* Compact Horizontal Row for Mobile */}
+            <div className="flex flex-wrap gap-x-3.5 gap-y-1.5 text-[8px] sm:text-[10px] font-black text-emerald-400">
+              {d2c.bullets.map((bullet) => (
+                <span key={bullet} className="flex items-center gap-1">
+                  <span className="w-1 h-1 rounded-full bg-emerald-400 shrink-0" />
+                  {bullet}
+                </span>
+              ))}
+            </div>
+
+            <div className="pt-0.5">
+              <Link
+                href="/about"
+                className="bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-2.5 rounded-xl font-black text-[9px] sm:text-xs uppercase tracking-wider inline-block shadow-md transition-all duration-300"
+              >
+                {d2c.ctaText}
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+     
 
       {/* 7. Agricultural Blogs - Premium Editorial Grid */}
       <section className="max-w-7xl mx-auto px-4 space-y-8">
