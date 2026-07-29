@@ -1,29 +1,38 @@
-import { notFound } from "next/navigation";
+"use client";
+
 import Link from "next/link";
-import { ArrowLeft, Star, ShoppingBag, ShieldCheck, CheckCircle2, MessageCircle, HelpCircle, Truck, Award, Sparkles, AlertCircle } from "lucide-react";
+import { useParams } from "next/navigation";
+import { ArrowLeft, Star, ShoppingBag, ShieldCheck, CheckCircle2, MessageCircle } from "lucide-react";
 import { PRODUCTS, Product } from "@/data/products";
+import { useResource } from "@/lib/client/useResource";
 
-interface PageProps {
-  params: Promise<{ id: string }>;
-}
-
-export default async function ProductDetailPage({ params }: PageProps) {
-  const { id } = await params;
-  const product = PRODUCTS.find((p) => p.id === id);
+export default function ProductDetailPage() {
+  const { id } = useParams<{ id: string }>();
+  const { items: products, loading } = useResource<Product>("products", PRODUCTS);
+  const product = products.find((item) => item.id === id);
 
   if (!product) {
-    notFound();
+    return (
+      <div className="mx-auto flex min-h-[55vh] max-w-xl flex-col items-center justify-center gap-4 px-4 text-center">
+        <h1 className="text-2xl font-black text-slate-900">
+          {loading ? "Loading product..." : "Product not found"}
+        </h1>
+        {!loading && (
+          <Link href="/products" className="text-sm font-bold text-emerald-700 hover:text-emerald-800">
+            Return to Products Catalog
+          </Link>
+        )}
+      </div>
+    );
   }
 
-  // Find related products in same category (excluding current)
-  const relatedProducts = PRODUCTS.filter(
-    (p) => p.category === product.category && p.id !== product.id
+  const relatedProducts = products.filter(
+    (item) => item.category === product.category && item.id !== product.id,
   ).slice(0, 4);
 
-  // Default fallback if no related products in same category
-  const fallbackProducts = relatedProducts.length > 0 
-    ? relatedProducts 
-    : PRODUCTS.filter((p) => p.id !== product.id).slice(0, 4);
+  const fallbackProducts = relatedProducts.length > 0
+    ? relatedProducts
+    : products.filter((item) => item.id !== product.id).slice(0, 4);
 
   // Generate WhatsApp message link
   const waMsg = encodeURIComponent(
@@ -37,7 +46,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
   return (
     <div className="bg-stone-50/50 min-h-screen py-8 sm:py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
-        
+
         {/* Back Link */}
         <div className="text-left">
           <Link
@@ -51,7 +60,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
 
         {/* Product Details Section */}
         <div className="bg-white border border-stone-200/60 rounded-3xl overflow-hidden shadow-sm grid grid-cols-1 lg:grid-cols-12 gap-0">
-          
+
           {/* Left Column: Product Visuals */}
           <div className="lg:col-span-6 bg-gradient-to-br from-emerald-50/50 to-teal-50/20 p-6 sm:p-10 flex flex-col justify-between border-b lg:border-b-0 lg:border-r border-stone-200/50">
             <div>
@@ -91,7 +100,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
           {/* Right Column: Dynamic Info & CTA */}
           <div className="lg:col-span-6 p-6 sm:p-10 flex flex-col justify-between space-y-8">
             <div className="space-y-6 text-left">
-              
+
               {/* Product Info Headers */}
               <div>
                 {product.subcategory && (
@@ -102,7 +111,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
                 <h1 className="text-xl sm:text-3xl font-black text-slate-900 tracking-tight leading-tight">
                   {product.name}
                 </h1>
-                
+
                 {/* Rating & Reviews */}
                 <div className="flex items-center gap-1.5 mt-2.5">
                   <div className="flex text-amber-500">
@@ -118,14 +127,13 @@ export default async function ProductDetailPage({ params }: PageProps) {
               {/* Pricing Section */}
               <div className="bg-stone-50 border border-stone-200/50 rounded-2xl p-4.5 flex items-center justify-between">
                 <div>
-                  <span className="block text-[8px] font-black text-stone-400 uppercase tracking-wider">Direct Factory Price</span>
+                  <span className="block text-[8px] font-black text-stone-400 uppercase tracking-wider">Pricing</span>
                   <div className="flex items-baseline gap-2 mt-0.5">
-                    <span className="text-2xl font-black text-slate-900">₹{product.currentPrice.toLocaleString("en-IN")}</span>
-                    <span className="text-xs font-bold text-stone-400 line-through">₹{product.originalPrice.toLocaleString("en-IN")}</span>
+                    <span className="text-xl font-black text-slate-900">Price on Request</span>
                   </div>
                 </div>
                 <div className="bg-emerald-50 text-emerald-800 text-[10px] font-black px-3 py-1.5 rounded-xl border border-emerald-500/10">
-                  Save ₹{(product.originalPrice - product.currentPrice).toLocaleString("en-IN")}
+                  Bulk Discounts Available
                 </div>
               </div>
 
@@ -225,10 +233,10 @@ export default async function ProductDetailPage({ params }: PageProps) {
                 <div>
                   {/* Visual Packaging Image Container */}
                   <div className="aspect-square rounded-xl bg-stone-50 flex items-center justify-center mb-3.5 relative overflow-hidden">
-                    <img 
-                      src={prod.image} 
-                      alt={prod.name} 
-                      className="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-500" 
+                    <img
+                      src={prod.image}
+                      alt={prod.name}
+                      className="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-500"
                     />
                   </div>
 
@@ -251,10 +259,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
 
                 {/* Bottom Pricing Row */}
                 <div className="flex items-center justify-between border-t border-stone-100 pt-3 mt-3">
-                  <div className="text-left">
-                    <span className="block text-[8px] text-stone-400 font-bold uppercase">Direct Price</span>
-                    <span className="text-xs font-black text-slate-900">₹{prod.currentPrice.toLocaleString("en-IN")}</span>
-                  </div>
+                  <span className="text-[10px] font-black text-emerald-700">Enquire Now</span>
                   <div className="w-7 h-7 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center group-hover:bg-emerald-600 group-hover:text-white transition-colors shrink-0">
                     <ArrowLeft className="w-3.5 h-3.5 rotate-180" />
                   </div>

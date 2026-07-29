@@ -1,21 +1,16 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, Leaf, ShieldAlert, Sparkles, BookOpen } from "lucide-react";
-import { CATEGORIES } from "@/data/products";
+import { BookOpen } from "lucide-react";
+import { CATEGORY_ITEMS, type CategoryItem } from "@/data/adminContent";
+import { useResource } from "@/lib/client/useResource";
 
 export default function CategoriesPage() {
-  const categoryImages = [
-    "/assets/hero_2.jpeg", // Fertilizers
-    "/assets/product_2.jpeg", // Pesticides
-    "/assets/product_3.jpeg", // Fungicides
-    "/assets/product_4.jpeg", // Herbicides
-    "/assets/hero_1.jpeg"  // Combos
-  ];
+  const { items: categories, error } = useResource<CategoryItem>("categories", CATEGORY_ITEMS);
 
   return (
     <div className="py-6 sm:py-10 max-w-7xl mx-auto px-4 space-y-8">
-      
+
       {/* Page Header */}
       <div className="text-left space-y-0.5">
         <span className="text-[9px] font-black uppercase tracking-widest text-emerald-600">
@@ -29,20 +24,26 @@ export default function CategoriesPage() {
         </p>
       </div>
 
+      {error && (
+        <p className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-xs font-semibold text-amber-800">
+          Live categories are temporarily unavailable. Showing the saved categories.
+        </p>
+      )}
+
       {/* High Density E-commerce Category Grid (3 cols on mobile, 5 cols on desktop) */}
       <div className="grid grid-cols-3 md:grid-cols-5 gap-3.5 sm:gap-6">
-        {CATEGORIES.map((cat, idx) => (
+        {categories.map((cat) => (
           <Link
-            key={cat.name}
+            key={cat.id}
             href={`/products?category=${cat.name}`}
             className="group cursor-pointer flex flex-col items-center text-center space-y-1.5"
           >
             {/* Square Image container */}
             <div className="aspect-square w-full rounded-2xl overflow-hidden relative bg-stone-50 border border-stone-200/50 shadow-sm">
-              <img 
-                src={categoryImages[idx] || categoryImages[0]} 
-                alt={cat.name} 
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
+              <img
+                src={cat.image}
+                alt={cat.name}
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               />
             </div>
 
@@ -73,7 +74,7 @@ export default function CategoriesPage() {
             Get offline access to ingredient schedules and recommended dosage charts.
           </p>
         </div>
-        
+
         <a
           href="/brochure-mock.pdf"
           download

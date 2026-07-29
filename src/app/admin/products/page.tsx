@@ -1,11 +1,12 @@
 "use client";
 
-import { useState, useMemo } from "react";
-import { PRODUCTS } from "@/data/products";
+import { useState, useMemo, useEffect } from "react";
+import { PRODUCTS, type Product } from "@/data/products";
 import ProductModal, {
     type ProductFormData,
 } from "@/components/admin/ProductModal";
 import { Plus, Search, Pencil, Trash2, Package, AlertCircle } from "lucide-react";
+import { createResource, deleteResource, listResource, updateResource } from "@/lib/client/api";
 
 interface RowProduct extends ProductFormData {
     uid: string;
@@ -13,7 +14,7 @@ interface RowProduct extends ProductFormData {
     reviews: number;
 }
 
-const toRow = (p: (typeof PRODUCTS)[number]): RowProduct => ({
+const toRow = (p: Product & { stock?: number }): RowProduct => ({
     uid: p.id,
     name: p.name,
     category: p.category,
@@ -23,7 +24,7 @@ const toRow = (p: (typeof PRODUCTS)[number]): RowProduct => ({
     originalPrice: p.originalPrice,
     currentPrice: p.currentPrice,
     discount: p.discount,
-    stock: p.reviews > 500 ? 120 : 40,
+    stock: p.stock ?? (p.reviews > 500 ? 120 : 40),
     image: p.image,
     isSoldOut: p.isSoldOut ?? false,
     rating: p.rating,
@@ -37,6 +38,18 @@ export default function AdminProductsPage() {
     const [modalOpen, setModalOpen] = useState(false);
     const [editing, setEditing] = useState<RowProduct | null>(null);
     const [confirmDelete, setConfirmDelete] = useState<RowProduct | null>(null);
+    const [apiError, setApiError] = useState<string | null>(null);
+
+    useEffect(() => {
+        listResource<Product & { stock?: number }>("products")
+            .then((products) => {
+                setRows(products.map(toRow));
+                setApiError(null);
+            })
+            .catch((error: unknown) => {
+                setApiError(error instanceof Error ? error.message : "Unable to load products.");
+            });
+    }, []);
 
     const categories = useMemo(
         () => ["All", ...Array.from(new Set(rows.map((r) => r.category)))],
@@ -64,28 +77,43 @@ export default function AdminProductsPage() {
         setModalOpen(true);
     };
 
-    const handleSave = (data: ProductFormData) => {
-        if (editing) {
-            setRows((prev) =>
-                prev.map((r) => (r.uid === editing.uid ? { ...r, ...data } : r))
-            );
-        } else {
-            const newRow: RowProduct = {
+    const handleSave = async (data: ProductFormData) => {
+        try {
+            const payload = {
                 ...data,
-                uid: `new-${Date.now()}`,
-                rating: 0,
-                reviews: 0,
+                id: editing?.uid || data.id || `product-${Date.now()}`,
+                benefits: editing ? undefined : [],
+                recommendedUsage: editing ? undefined : "",
+                packagingDetails: editing ? undefined : [],
+                rating: editing?.rating ?? 0,
+                reviews: editing?.reviews ?? 0,
             };
-            setRows((prev) => [newRow, ...prev]);
+            const saved = editing
+                ? await updateResource("products", editing.uid, payload)
+                : await createResource("products", payload);
+            const row: RowProduct = {
+                ...data,
+                uid: String(saved.id),
+                rating: Number(saved.rating ?? 0),
+                reviews: Number(saved.reviews ?? 0),
+            };
+            setRows((prev) => editing ? prev.map((r) => (r.uid === editing.uid ? row : r)) : [row, ...prev]);
+            setModalOpen(false);
+            setEditing(null);
+        } catch (error) {
+            alert(error instanceof Error ? error.message : "Unable to save product.");
         }
-        setModalOpen(false);
-        setEditing(null);
     };
 
-    const handleDelete = () => {
+    const handleDelete = async () => {
         if (!confirmDelete) return;
-        setRows((prev) => prev.filter((r) => r.uid !== confirmDelete.uid));
-        setConfirmDelete(null);
+        try {
+            await deleteResource("products", confirmDelete.uid);
+            setRows((prev) => prev.filter((r) => r.uid !== confirmDelete.uid));
+            setConfirmDelete(null);
+        } catch (error) {
+            alert(error instanceof Error ? error.message : "Unable to delete product.");
+        }
     };
 
     return (
@@ -99,6 +127,8 @@ export default function AdminProductsPage() {
                     <Plus className="h-4 w-4" /> Add Product
                 </button>
             </div>
+
+            {apiError && <p className="rounded-xl bg-amber-50 px-4 py-3 text-xs text-amber-700">Using local fallback data: {apiError}</p>}
 
             {/* Toolbar */}
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
@@ -202,6 +232,7 @@ export default function AdminProductsPage() {
             </div>
 
             <ProductModal
+                key={editing?.uid ?? "new-product"}
                 open={modalOpen}
                 initialData={editing}
                 onClose={() => { setModalOpen(false); setEditing(null); }}

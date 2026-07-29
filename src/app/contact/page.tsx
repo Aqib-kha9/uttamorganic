@@ -2,8 +2,12 @@
 
 import { useState } from "react";
 import { Send, CheckCircle2, Phone, Mail, MapPin, Clock, ShieldCheck, Users } from "lucide-react";
+import { CONTACT_DETAILS, type ContactDetails } from "@/data/adminContent";
+import { createResource } from "@/lib/client/api";
+import { useSettings } from "@/lib/client/useSettings";
 
 export default function ContactPage() {
+  const { data: contact } = useSettings<ContactDetails>("contact-details", CONTACT_DETAILS);
   const [formData, setFormData] = useState({
     fullName: "",
     farmName: "",
@@ -15,17 +19,19 @@ export default function ContactPage() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    setTimeout(() => {
-      setIsSubmitting(false);
+    setSubmitError(null);
+    try {
+      await createResource("enquiries", formData);
       setSubmitted(true);
       setFormData({
         fullName: "",
@@ -36,12 +42,16 @@ export default function ContactPage() {
         enquiryType: "General Inquiry",
         message: ""
       });
-    }, 1500);
+    } catch (error) {
+      setSubmitError(error instanceof Error ? error.message : "Unable to submit your enquiry.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
     <div className="py-6 sm:py-10 max-w-4xl mx-auto px-4 space-y-8">
-      
+
       {/* 1. Page Header */}
       <section className="text-left space-y-0.5">
         <span className="text-[10px] font-black uppercase tracking-widest text-emerald-650">
@@ -57,7 +67,7 @@ export default function ContactPage() {
 
       {/* 2. Grid: Form & Contact details (Form loads first on mobile, columns on desktop) */}
       <section className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
-        
+
         {/* Enquiry Form Card (Spans 7 columns) */}
         <div className="md:col-span-7 bg-white border border-stone-200/60 rounded-2xl p-5 sm:p-8 shadow-sm order-1">
           <div className="border-b border-stone-150 pb-4 mb-5">
@@ -177,6 +187,12 @@ export default function ContactPage() {
                 />
               </div>
 
+              {submitError && (
+                <p className="rounded-xl border border-rose-200 bg-rose-50 px-3 py-2.5 text-xs font-semibold text-rose-700" role="alert">
+                  {submitError}
+                </p>
+              )}
+
               <button
                 type="submit"
                 disabled={isSubmitting}
@@ -202,7 +218,7 @@ export default function ContactPage() {
         <div className="md:col-span-5 space-y-6 order-2">
           <div className="bg-white border border-stone-200/50 rounded-2xl p-5 sm:p-6 shadow-sm space-y-6 text-left">
             <h2 className="text-sm sm:text-base font-black text-slate-955 border-b border-stone-150 pb-3">Greengrow Office Details</h2>
-            
+
             <div className="space-y-4">
               <div className="flex items-start gap-3">
                 <div className="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
@@ -211,9 +227,7 @@ export default function ContactPage() {
                 <div>
                   <span className="block text-[9px] font-black text-stone-400 uppercase tracking-wider">Corporate Headquarters</span>
                   <p className="text-xs font-bold text-slate-700 mt-0.5 leading-relaxed">
-                    A-103, Radhika Premier Building,<br />
-                    04 Radhika Palace Colony, Bombay Hospital to Tulsi Nagar Main Road,<br />
-                    Indore - 452010, Madhya Pradesh, India
+                    {contact.address}
                   </p>
                 </div>
               </div>
@@ -224,8 +238,8 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <span className="block text-[9px] font-black text-stone-400 uppercase tracking-wider">Call Support</span>
-                  <a href="tel:+918269108808" className="block text-xs font-bold text-slate-700 hover:text-emerald-600 mt-0.5">
-                    +91 8269108808
+                  <a href={`tel:${contact.phone.replace(/\s/g, "")}`} className="block text-xs font-bold text-slate-700 hover:text-emerald-600 mt-0.5">
+                    {contact.phone}
                   </a>
                   <span className="block text-[8px] text-stone-400">Direct sales line & dealership cell</span>
                 </div>
@@ -237,8 +251,8 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <span className="block text-[9px] font-black text-stone-400 uppercase tracking-wider">Email Inquiry</span>
-                  <a href="mailto:greengrowfertilizer25@gmail.com" className="block text-xs font-bold text-slate-700 hover:text-emerald-600 mt-0.5">
-                    greengrowfertilizer25@gmail.com
+                  <a href={`mailto:${contact.email}`} className="block text-xs font-bold text-slate-700 hover:text-emerald-600 mt-0.5">
+                    {contact.email}
                   </a>
                 </div>
               </div>
@@ -250,8 +264,7 @@ export default function ContactPage() {
                 <div>
                   <span className="block text-[9px] font-black text-stone-400 uppercase tracking-wider">Office Hours</span>
                   <p className="text-xs font-bold text-slate-700 mt-0.5">
-                    Monday - Saturday: 9:00 AM - 6:00 PM<br />
-                    <span className="text-[10px] font-normal text-stone-400">Closed on Sundays & Holidays</span>
+                    {contact.officeHours}
                   </p>
                 </div>
               </div>
@@ -263,9 +276,9 @@ export default function ContactPage() {
                 <div>
                   <span className="block text-[9px] font-black text-stone-400 uppercase tracking-wider">Corporate Registration</span>
                   <p className="text-xs font-bold text-slate-700 mt-0.5">
-                    GREENGROW FERTILIZER PRIVATE LIMITED<br />
-                    <span className="text-[10px] text-stone-400 font-normal block mt-0.5">CIN: U20129MP2025PTC080802</span>
-                    <span className="text-[10px] text-stone-400 font-normal block">GSTIN: 23AAMCG6217C1ZX</span>
+                    {contact.companyName}<br />
+                    <span className="text-[10px] text-stone-400 font-normal block mt-0.5">CIN: {contact.cin}</span>
+                    <span className="text-[10px] text-stone-400 font-normal block">GSTIN: {contact.gstin}</span>
                   </p>
                 </div>
               </div>
@@ -277,15 +290,17 @@ export default function ContactPage() {
                 <div>
                   <span className="block text-[9px] font-black text-stone-400 uppercase tracking-wider">Board of Directors</span>
                   <div className="text-xs font-bold text-slate-700 mt-0.5 space-y-2">
-                    <div>
-                      <p className="leading-tight">Mr. Sonu Agrawal</p>
-                      <span className="text-[10px] font-normal text-stone-400 block">Director</span>
-                      <a href="tel:+919993108808" className="text-[10px] text-emerald-600 hover:text-emerald-700 font-semibold mt-0.5 block">+91 9993108808</a>
-                    </div>
-                    <div>
-                      <p className="leading-tight">Mr. Mahesh Chandra</p>
-                      <span className="text-[10px] font-normal text-stone-400 block">Director</span>
-                    </div>
+                    {contact.directors.map((director) => (
+                      <div key={`${director.name}-${director.role}`}>
+                        <p className="leading-tight">{director.name}</p>
+                        <span className="text-[10px] font-normal text-stone-400 block">{director.role}</span>
+                        {director.phone && (
+                          <a href={`tel:${director.phone.replace(/\s/g, "")}`} className="text-[10px] text-emerald-600 hover:text-emerald-700 font-semibold mt-0.5 block">
+                            {director.phone}
+                          </a>
+                        )}
+                      </div>
+                    ))}
                   </div>
                 </div>
               </div>
@@ -294,11 +309,11 @@ export default function ContactPage() {
 
           {/* Interactive Google Map Iframe */}
           <div className="w-full h-[220px] rounded-2xl overflow-hidden border border-stone-200/50 relative shadow-sm">
-            <iframe 
-              src="https://maps.google.com/maps?q=Radhika%20Premier%20Building%20Indore&t=&z=15&ie=UTF8&iwloc=&output=embed" 
-              className="w-full h-full border-0" 
+            <iframe
+              src="https://maps.google.com/maps?q=Radhika%20Premier%20Building%20Indore&t=&z=15&ie=UTF8&iwloc=&output=embed"
+              className="w-full h-full border-0"
               allowFullScreen={true}
-              loading="lazy" 
+              loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
             />
           </div>

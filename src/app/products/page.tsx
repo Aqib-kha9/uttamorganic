@@ -1,31 +1,41 @@
 "use client";
 
-import { useState, useEffect, Suspense } from "react";
+import { useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { Search, Star, RotateCcw } from "lucide-react";
 import { PRODUCTS, Product } from "@/data/products";
 import ProductModal from "@/components/ProductModal";
+import { useResource } from "@/lib/client/useResource";
 
 function ProductsContent() {
   const searchParams = useSearchParams();
-  const initialCategory = searchParams.get("category") || "All";
-  const initialSearch = searchParams.get("search") || "";
 
+  return (
+    <ProductsCatalog
+      key={searchParams.toString()}
+      initialCategory={searchParams.get("category") || "All"}
+      initialSearch={searchParams.get("search") || ""}
+    />
+  );
+}
+
+function ProductsCatalog({
+  initialCategory,
+  initialSearch,
+}: {
+  initialCategory: string;
+  initialSearch: string;
+}) {
   const [searchQuery, setSearchQuery] = useState(initialSearch);
   const [selectedCategory, setSelectedCategory] = useState(initialCategory);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-
-  // Sync state if search params change (e.g. from navbar clicks)
-  useEffect(() => {
-    setSearchQuery(searchParams.get("search") || "");
-    setSelectedCategory(searchParams.get("category") || "All");
-  }, [searchParams]);
+  const { items: products, error } = useResource<Product>("products", PRODUCTS);
 
   const categories = ["All", "Fertilizers", "Pesticides", "Fungicides", "Herbicides", "Combos"];
 
   // Filter logic
-  const filteredProducts = PRODUCTS.filter((product) => {
+  const filteredProducts = products.filter((product) => {
     const matchesCategory = selectedCategory === "All" || product.category === selectedCategory;
     const matchesSearch =
       product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -42,7 +52,7 @@ function ProductsContent() {
 
   return (
     <div className="py-6 sm:py-10 max-w-7xl mx-auto px-4 space-y-6 sm:space-y-8">
-      
+
       {/* 1. Header Section */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div className="space-y-0.5 text-left">
@@ -91,11 +101,10 @@ function ProductsContent() {
               <button
                 key={cat}
                 onClick={() => setSelectedCategory(cat)}
-                className={`shrink-0 snap-start text-xs font-black px-4.5 py-2.5 rounded-xl transition-all border ${
-                  isActive
-                    ? "bg-emerald-600 border-emerald-600 text-white shadow-sm"
-                    : "bg-white border-stone-200 text-stone-600 hover:bg-stone-50"
-                }`}
+                className={`shrink-0 snap-start text-xs font-black px-4.5 py-2.5 rounded-xl transition-all border ${isActive
+                  ? "bg-emerald-600 border-emerald-600 text-white shadow-sm"
+                  : "bg-white border-stone-200 text-stone-600 hover:bg-stone-50"
+                  }`}
               >
                 {cat}
               </button>
@@ -104,6 +113,12 @@ function ProductsContent() {
         </div>
       </div>
 
+      {error && (
+        <p className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-xs font-semibold text-amber-800">
+          Live catalog is temporarily unavailable. Showing the saved catalog.
+        </p>
+      )}
+
       {/* 3. Product Catalog Grid (2 columns on mobile, 4 columns on desktop) */}
       <main className="w-full">
         {filteredProducts.length === 0 ? (
@@ -111,7 +126,7 @@ function ProductsContent() {
             <span className="text-4xl block mb-3">🔍</span>
             <h3 className="text-sm sm:text-base font-black text-slate-900 mb-1">No Solutions Found</h3>
             <p className="text-xs text-stone-500 max-w-xs mx-auto mb-5 leading-normal">
-              We couldn't find any products matching your search query. Try resetting or selecting another category.
+              We could not find any products matching your search query. Try resetting or selecting another category.
             </p>
             <button
               onClick={handleResetFilters}
@@ -136,10 +151,10 @@ function ProductsContent() {
                 <div className="p-3 flex-grow">
                   {/* Visual Packaging Image Container */}
                   <div className="aspect-square rounded-xl bg-stone-50 flex items-center justify-center mb-3.5 relative overflow-hidden">
-                    <img 
-                      src={prod.image} 
-                      alt={prod.name} 
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 mix-blend-multiply" 
+                    <img
+                      src={prod.image}
+                      alt={prod.name}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 mix-blend-multiply"
                     />
                   </div>
 
@@ -157,15 +172,11 @@ function ProductsContent() {
                 </div>
 
                 {/* Pricing & CTA panel */}
-                <div className="p-3 pt-0 flex items-center justify-between gap-2 mt-auto">
-                  <div className="flex items-baseline gap-1">
-                    <span className="text-sm font-black text-slate-900">₹{prod.currentPrice.toLocaleString()}</span>
-                    <span className="text-[10px] text-slate-405 line-through font-medium">₹{prod.originalPrice.toLocaleString()}</span>
-                  </div>
-                  <span className="bg-emerald-50 text-emerald-850 border border-emerald-100/50 group-hover:bg-emerald-600 group-hover:text-white group-hover:border-emerald-600 px-3 py-1.5 rounded-xl text-[10px] font-black transition-all duration-300 shrink-0">
+                <div className="p-3 pt-0 mt-auto w-full">
+                  <span className="block w-full text-center bg-emerald-50 text-emerald-850 border border-emerald-100/50 group-hover:bg-emerald-600 group-hover:text-white group-hover:border-emerald-600 py-1.5 rounded-xl text-[10px] font-black transition-all duration-300">
                     Enquire
                   </span>
-                 </div>
+                </div>
               </Link>
             ))}
           </div>

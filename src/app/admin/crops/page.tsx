@@ -4,9 +4,10 @@ import { useState } from "react";
 import { Plus, Pencil, Trash2 } from "lucide-react";
 import { CROP_ITEMS, type CropItem } from "@/data/adminContent";
 import Modal, { Field, ImageField, SaveFooter, inputCls } from "@/components/admin/Modal";
+import { useResource } from "@/lib/client/useResource";
 
 export default function CropsManager() {
-    const [items, setItems] = useState<CropItem[]>(CROP_ITEMS);
+    const { items, error, save: saveItem, remove: removeItem } = useResource<CropItem>("crops", CROP_ITEMS);
     const [open, setOpen] = useState(false);
     const [editing, setEditing] = useState<CropItem | null>(null);
     const [form, setForm] = useState<CropItem>({ id: "", name: "", icon: "", desc: "", image: "" });
@@ -21,13 +22,21 @@ export default function CropsManager() {
         setForm({ ...c });
         setOpen(true);
     };
-    const save = () => {
-        if (editing) setItems((p) => p.map((c) => (c.id === editing.id ? form : c)));
-        else setItems((p) => [...p, form]);
-        setOpen(false);
+    const save = async () => {
+        try {
+            await saveItem(form, editing?.id);
+            setOpen(false);
+        } catch (saveError) {
+            alert(saveError instanceof Error ? saveError.message : "Unable to save crop schedule.");
+        }
     };
-    const remove = (id: string) => {
-        if (confirm("Delete this crop schedule?")) setItems((p) => p.filter((c) => c.id !== id));
+    const remove = async (id: string) => {
+        if (!confirm("Delete this crop schedule?")) return;
+        try {
+            await removeItem(id);
+        } catch (removeError) {
+            alert(removeError instanceof Error ? removeError.message : "Unable to delete crop schedule.");
+        }
     };
 
     return (
@@ -35,13 +44,14 @@ export default function CropsManager() {
             <div className="flex items-center justify-between">
                 <div>
                     <h1 className="font-display text-2xl font-extrabold tracking-tight text-slate-900">Crop Schedules</h1>
-                    <p className="text-sm text-slate-500">Manage the "Customized Schedules By Crops" section.</p>
+                    <p className="text-sm text-slate-500">Manage the {`"Customized Schedules By Crops"`} section.</p>
                 </div>
                 <button onClick={openNew} className="inline-flex items-center gap-2 rounded-xl bg-emerald-650 px-4 py-2.5 text-sm font-bold text-white shadow-lg shadow-emerald-650/20 hover:bg-emerald-750">
                     <Plus className="h-4 w-4" /> Add Crop
                 </button>
             </div>
 
+            {error && <p className="rounded-xl bg-amber-50 px-4 py-3 text-xs text-amber-700">Using local fallback data: {error}</p>}
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 {items.map((c) => (
                     <div key={c.id} className="overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm">

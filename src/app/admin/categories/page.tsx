@@ -4,9 +4,10 @@ import { useState } from "react";
 import { Plus, Pencil, Trash2 } from "lucide-react";
 import { CATEGORY_ITEMS, type CategoryItem } from "@/data/adminContent";
 import Modal, { Field, ImageField, SaveFooter, inputCls } from "@/components/admin/Modal";
+import { useResource } from "@/lib/client/useResource";
 
 export default function CategoriesManager() {
-    const [items, setItems] = useState<CategoryItem[]>(CATEGORY_ITEMS);
+    const { items, error, save: saveItem, remove: removeItem } = useResource<CategoryItem>("categories", CATEGORY_ITEMS);
     const [open, setOpen] = useState(false);
     const [editing, setEditing] = useState<CategoryItem | null>(null);
     const [form, setForm] = useState<CategoryItem>({ id: "", name: "", count: 0, desc: "", image: "" });
@@ -21,13 +22,21 @@ export default function CategoriesManager() {
         setForm({ ...c });
         setOpen(true);
     };
-    const save = () => {
-        if (editing) setItems((p) => p.map((c) => (c.id === editing.id ? form : c)));
-        else setItems((p) => [...p, form]);
-        setOpen(false);
+    const save = async () => {
+        try {
+            await saveItem(form, editing?.id);
+            setOpen(false);
+        } catch (saveError) {
+            alert(saveError instanceof Error ? saveError.message : "Unable to save category.");
+        }
     };
-    const remove = (id: string) => {
-        if (confirm("Delete this category?")) setItems((p) => p.filter((c) => c.id !== id));
+    const remove = async (id: string) => {
+        if (!confirm("Delete this category?")) return;
+        try {
+            await removeItem(id);
+        } catch (removeError) {
+            alert(removeError instanceof Error ? removeError.message : "Unable to delete category.");
+        }
     };
 
     return (
@@ -35,13 +44,14 @@ export default function CategoriesManager() {
             <div className="flex items-center justify-between">
                 <div>
                     <h1 className="font-display text-2xl font-extrabold tracking-tight text-slate-900">Categories</h1>
-                    <p className="text-sm text-slate-500">Manage the "Shop by Categories" tiles on the homepage.</p>
+                    <p className="text-sm text-slate-500">Manage the {`"Shop by Categories"`} tiles on the homepage.</p>
                 </div>
                 <button onClick={openNew} className="inline-flex items-center gap-2 rounded-xl bg-emerald-650 px-4 py-2.5 text-sm font-bold text-white shadow-lg shadow-emerald-650/20 hover:bg-emerald-750">
                     <Plus className="h-4 w-4" /> Add Category
                 </button>
             </div>
 
+            {error && <p className="rounded-xl bg-amber-50 px-4 py-3 text-xs text-amber-700">Using local fallback data: {error}</p>}
             <div className="overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm">
                 <table className="w-full text-left text-sm">
                     <thead className="border-b border-stone-100 bg-stone-50 text-xs uppercase tracking-wide text-slate-500">

@@ -11,15 +11,31 @@ export default function AdminLoginPage() {
     const [email, setEmail] = useState("admin@greengrow.in");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
-        // Frontend-only mock auth — serverless API will be wired later.
-        setTimeout(() => {
-            setLoading(false);
+        setError(null);
+
+        try {
+            const response = await fetch("/api/admin/session", {
+                method: "POST",
+                headers: { Authorization: `Bearer ${password}` },
+            });
+
+            const payload = (await response.json().catch(() => null)) as { error?: string } | null;
+            if (!response.ok) {
+                throw new Error(payload?.error || "Invalid admin token.");
+            }
+
+            window.localStorage.setItem("adminApiToken", password);
             router.push("/admin");
-        }, 700);
+        } catch (requestError) {
+            setError(requestError instanceof Error ? requestError.message : "Unable to sign in.");
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -88,6 +104,11 @@ export default function AdminLoginPage() {
                     </p>
 
                     <form onSubmit={handleSubmit} className="mt-8 space-y-5">
+                        {error && (
+                            <p className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-xs font-semibold text-red-700" role="alert">
+                                {error}
+                            </p>
+                        )}
                         <div>
                             <label className="mb-1.5 block text-xs font-bold uppercase tracking-wide text-slate-600">
                                 Email Address
@@ -108,7 +129,7 @@ export default function AdminLoginPage() {
                         <div>
                             <div className="mb-1.5 flex items-center justify-between">
                                 <label className="block text-xs font-bold uppercase tracking-wide text-slate-600">
-                                    Password
+                                    Admin API Token
                                 </label>
                                 <button
                                     type="button"
@@ -124,7 +145,7 @@ export default function AdminLoginPage() {
                                     required
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
-                                    placeholder="••••••••"
+                                    placeholder="Enter ADMIN_API_TOKEN"
                                     className="w-full bg-transparent text-sm text-slate-800 outline-none placeholder:text-slate-400"
                                 />
                                 <button

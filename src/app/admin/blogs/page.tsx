@@ -4,9 +4,10 @@ import { useState } from "react";
 import { Plus, Pencil, Trash2, Newspaper } from "lucide-react";
 import { BLOG_ITEMS, type BlogItem } from "@/data/adminContent";
 import Modal, { Field, ImageField, SaveFooter, inputCls } from "@/components/admin/Modal";
+import { useResource } from "@/lib/client/useResource";
 
 export default function BlogsManager() {
-    const [items, setItems] = useState<BlogItem[]>(BLOG_ITEMS);
+    const { items, error, save: saveItem, remove: removeItem } = useResource<BlogItem>("blogs", BLOG_ITEMS);
     const [open, setOpen] = useState(false);
     const [editing, setEditing] = useState<BlogItem | null>(null);
     const [form, setForm] = useState<BlogItem>({ id: "", title: "", date: "", desc: "", category: "", image: "" });
@@ -21,13 +22,21 @@ export default function BlogsManager() {
         setForm({ ...b });
         setOpen(true);
     };
-    const save = () => {
-        if (editing) setItems((p) => p.map((b) => (b.id === editing.id ? form : b)));
-        else setItems((p) => [form, ...p]);
-        setOpen(false);
+    const save = async () => {
+        try {
+            await saveItem(form, editing?.id);
+            setOpen(false);
+        } catch (saveError) {
+            alert(saveError instanceof Error ? saveError.message : "Unable to save blog post.");
+        }
     };
-    const remove = (id: string) => {
-        if (confirm("Delete this blog post?")) setItems((p) => p.filter((b) => b.id !== id));
+    const remove = async (id: string) => {
+        if (!confirm("Delete this blog post?")) return;
+        try {
+            await removeItem(id);
+        } catch (removeError) {
+            alert(removeError instanceof Error ? removeError.message : "Unable to delete blog post.");
+        }
     };
 
     return (
@@ -42,6 +51,7 @@ export default function BlogsManager() {
                 </button>
             </div>
 
+            {error && <p className="rounded-xl bg-amber-50 px-4 py-3 text-xs text-amber-700">Using local fallback data: {error}</p>}
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 {items.map((b) => (
                     <div key={b.id} className="overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm">

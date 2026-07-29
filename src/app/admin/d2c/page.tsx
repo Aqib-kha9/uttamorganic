@@ -1,13 +1,27 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Plus, X, Save, Truck } from "lucide-react";
 import { D2C_SECTION, type D2CSection } from "@/data/adminContent";
 import { Field, ImageField, inputCls } from "@/components/admin/Modal";
+import { getSettings, saveSettings } from "@/lib/client/api";
 
 export default function D2CManager() {
     const [form, setForm] = useState<D2CSection>({ ...D2C_SECTION });
     const [saved, setSaved] = useState(false);
+    const [saving, setSaving] = useState(false);
+    const [apiError, setApiError] = useState<string | null>(null);
+
+    useEffect(() => {
+        getSettings<D2CSection>("d2c")
+            .then((section) => {
+                setForm(section);
+                setApiError(null);
+            })
+            .catch((error: unknown) => {
+                setApiError(error instanceof Error ? error.message : "Unable to load D2C content.");
+            });
+    }, []);
 
     const updateBullet = (idx: number, value: string) => {
         setForm((f) => ({ ...f, bullets: f.bullets.map((b, i) => (i === idx ? value : b)) }));
@@ -15,9 +29,19 @@ export default function D2CManager() {
     const addBullet = () => setForm((f) => ({ ...f, bullets: [...f.bullets, ""] }));
     const removeBullet = (idx: number) => setForm((f) => ({ ...f, bullets: f.bullets.filter((_, i) => i !== idx) }));
 
-    const save = () => {
-        setSaved(true);
-        setTimeout(() => setSaved(false), 2000);
+    const save = async () => {
+        setSaving(true);
+        setApiError(null);
+        try {
+            const savedSection = await saveSettings<D2CSection>("d2c", form);
+            setForm(savedSection);
+            setSaved(true);
+            setTimeout(() => setSaved(false), 2000);
+        } catch (error) {
+            setApiError(error instanceof Error ? error.message : "Unable to save D2C content.");
+        } finally {
+            setSaving(false);
+        }
     };
 
     return (
@@ -27,10 +51,16 @@ export default function D2CManager() {
                     <h1 className="font-display text-2xl font-extrabold tracking-tight text-slate-900">Direct to Farm / About Section</h1>
                     <p className="text-sm text-slate-500">Manage the D2C section shown on the homepage and About page.</p>
                 </div>
-                <button onClick={save} className="inline-flex items-center gap-2 rounded-xl bg-emerald-650 px-4 py-2.5 text-sm font-bold text-white shadow-lg shadow-emerald-650/20 hover:bg-emerald-750">
-                    <Save className="h-4 w-4" /> {saved ? "Saved!" : "Save Changes"}
+                <button disabled={saving} onClick={save} className="inline-flex items-center gap-2 rounded-xl bg-emerald-650 px-4 py-2.5 text-sm font-bold text-white shadow-lg shadow-emerald-650/20 hover:bg-emerald-750 disabled:cursor-not-allowed disabled:opacity-60">
+                    <Save className="h-4 w-4" /> {saving ? "Saving..." : saved ? "Saved!" : "Save Changes"}
                 </button>
             </div>
+
+            {apiError && (
+                <p className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
+                    {apiError} The current mock content remains available as a fallback.
+                </p>
+            )}
 
             <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
                 {/* Preview */}

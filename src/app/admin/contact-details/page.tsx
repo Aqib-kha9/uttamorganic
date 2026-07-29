@@ -1,13 +1,27 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Plus, X, Save, Phone, Building2, Users } from "lucide-react";
 import { CONTACT_DETAILS, type ContactDetails } from "@/data/adminContent";
 import { Field, ImageField, inputCls } from "@/components/admin/Modal";
+import { getSettings, saveSettings } from "@/lib/client/api";
 
 export default function ContactDetailsManager() {
   const [form, setForm] = useState<ContactDetails>({ ...CONTACT_DETAILS });
   const [saved, setSaved] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [apiError, setApiError] = useState<string | null>(null);
+
+  useEffect(() => {
+    getSettings<ContactDetails>("contact-details")
+      .then((details) => {
+        setForm(details);
+        setApiError(null);
+      })
+      .catch((error: unknown) => {
+        setApiError(error instanceof Error ? error.message : "Unable to load contact details.");
+      });
+  }, []);
 
   const updateDirector = (idx: number, key: "name" | "role" | "phone", value: string) => {
     setForm((f) => ({ ...f, directors: f.directors.map((d, i) => (i === idx ? { ...d, [key]: value } : d)) }));
@@ -15,9 +29,19 @@ export default function ContactDetailsManager() {
   const addDirector = () => setForm((f) => ({ ...f, directors: [...f.directors, { name: "", role: "Director" }] }));
   const removeDirector = (idx: number) => setForm((f) => ({ ...f, directors: f.directors.filter((_, i) => i !== idx) }));
 
-  const save = () => {
-    setSaved(true);
-    setTimeout(() => setSaved(false), 2000);
+  const save = async () => {
+    setSaving(true);
+    setApiError(null);
+    try {
+      const savedDetails = await saveSettings<ContactDetails>("contact-details", form);
+      setForm(savedDetails);
+      setSaved(true);
+      setTimeout(() => setSaved(false), 2000);
+    } catch (error) {
+      setApiError(error instanceof Error ? error.message : "Unable to save contact details.");
+    } finally {
+      setSaving(false);
+    }
   };
 
   return (
@@ -27,10 +51,16 @@ export default function ContactDetailsManager() {
           <h1 className="font-display text-2xl font-extrabold tracking-tight text-slate-900">Contact Details</h1>
           <p className="text-sm text-slate-500">Manage brand info, contact details, legal IDs and directors shown across the site.</p>
         </div>
-        <button onClick={save} className="inline-flex items-center gap-2 rounded-xl bg-emerald-650 px-4 py-2.5 text-sm font-bold text-white shadow-lg shadow-emerald-650/20 hover:bg-emerald-750">
-          <Save className="h-4 w-4" /> {saved ? "Saved!" : "Save Changes"}
+        <button disabled={saving} onClick={save} className="inline-flex items-center gap-2 rounded-xl bg-emerald-650 px-4 py-2.5 text-sm font-bold text-white shadow-lg shadow-emerald-650/20 hover:bg-emerald-750 disabled:cursor-not-allowed disabled:opacity-60">
+          <Save className="h-4 w-4" /> {saving ? "Saving..." : saved ? "Saved!" : "Save Changes"}
         </button>
       </div>
+
+      {apiError && (
+        <p className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
+          {apiError} The current mock content remains available as a fallback.
+        </p>
+      )}
 
       {/* Brand */}
       <section className="rounded-2xl border border-stone-200 bg-white p-5 shadow-sm">

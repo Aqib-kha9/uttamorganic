@@ -12,15 +12,15 @@ export interface HeroSlide {
 export const HERO_SLIDES: HeroSlide[] = [
   {
     id: "slide-1",
-    image: "/assets/hero_1.jpeg",
-    headline: "Get Free Parichay Combo Direct From Factory",
-    subtext: "Save up to 70% middleman commission on certified bio-inputs.",
-  },
-  {
-    id: "slide-2",
     image: "/assets/hero_2.jpeg",
     headline: "Protect Crops with Certified Bio-Pesticides",
     subtext: "Organic control against sucking pests, thrips, and mites.",
+  },
+  {
+    id: "slide-2",
+    image: "/assets/hero_1.jpeg",
+    headline: "Get Free Parichay Combo Direct From Factory",
+    subtext: "Save up to 70% middleman commission on certified bio-inputs.",
   },
   {
     id: "slide-3",

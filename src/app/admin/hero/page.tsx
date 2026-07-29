@@ -4,9 +4,10 @@ import { useState } from "react";
 import { Plus, Pencil, Trash2, Image as ImageIcon } from "lucide-react";
 import { HERO_SLIDES, type HeroSlide } from "@/data/adminContent";
 import Modal, { Field, ImageField, SaveFooter, inputCls } from "@/components/admin/Modal";
+import { useResource } from "@/lib/client/useResource";
 
 export default function HeroManager() {
-    const [slides, setSlides] = useState<HeroSlide[]>(HERO_SLIDES);
+    const { items: slides, error, save: saveSlide, remove: removeSlide } = useResource<HeroSlide>("hero", HERO_SLIDES);
     const [open, setOpen] = useState(false);
     const [editing, setEditing] = useState<HeroSlide | null>(null);
     const [form, setForm] = useState<HeroSlide>({ id: "", image: "", headline: "", subtext: "" });
@@ -23,18 +24,22 @@ export default function HeroManager() {
         setOpen(true);
     };
 
-    const save = () => {
-        if (editing) {
-            setSlides((prev) => prev.map((s) => (s.id === editing.id ? form : s)));
-        } else {
-            setSlides((prev) => [...prev, form]);
+    const save = async () => {
+        try {
+            await saveSlide(form, editing?.id);
+            setOpen(false);
+        } catch (saveError) {
+            alert(saveError instanceof Error ? saveError.message : "Unable to save hero slide.");
         }
-        setOpen(false);
     };
 
-    const remove = (id: string) => {
+    const remove = async (id: string) => {
         if (confirm("Delete this hero slide?")) {
-            setSlides((prev) => prev.filter((s) => s.id !== id));
+            try {
+                await removeSlide(id);
+            } catch (removeError) {
+                alert(removeError instanceof Error ? removeError.message : "Unable to delete hero slide.");
+            }
         }
     };
 
@@ -57,6 +62,7 @@ export default function HeroManager() {
                 </button>
             </div>
 
+            {error && <p className="rounded-xl bg-amber-50 px-4 py-3 text-xs text-amber-700">Using local fallback data: {error}</p>}
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 {slides.map((s) => (
                     <div key={s.id} className="overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm">

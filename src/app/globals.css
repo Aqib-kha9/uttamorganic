@@ -112,3 +112,14 @@ h1, h2, h3, h4, h5, h6 {
   background-clip: padding-box;
   border: 2px solid transparent;
 }
+
+/* Utility to completely hide scrollbar but preserve scrolling ability */
+.scrollbar-none {
+  -ms-overflow-style: none !important;  /* IE and Edge */
+  scrollbar-width: none !important;  /* Firefox */
+}
+.scrollbar-none::-webkit-scrollbar {
+  display: none !important;  /* Chrome, Safari and Opera */
+  width: 0 !important;
+  height: 0 !important;
+}

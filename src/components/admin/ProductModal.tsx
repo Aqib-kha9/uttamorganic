@@ -1,7 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { X, Upload, Save, Trash2 } from "lucide-react";
+
+import { uploadMedia } from "@/lib/client/api";
 
 export interface ProductFormData {
     id?: string;
@@ -54,13 +56,24 @@ export default function ProductModal({
     onClose,
     onSave,
 }: ProductModalProps) {
-    const [form, setForm] = useState<ProductFormData>(emptyForm);
-
-    useEffect(() => {
-        setForm(initialData ?? emptyForm);
-    }, [initialData, open]);
-
     if (!open) return null;
+
+    return (
+        <ProductModalContent
+            initialData={initialData}
+            onClose={onClose}
+            onSave={onSave}
+        />
+    );
+}
+
+function ProductModalContent({
+    initialData,
+    onClose,
+    onSave,
+}: Omit<ProductModalProps, "open">) {
+    const [form, setForm] = useState<ProductFormData>(() => initialData ?? emptyForm);
+    const [uploading, setUploading] = useState(false);
 
     const update = <K extends keyof ProductFormData>(
         key: K,
@@ -70,6 +83,19 @@ export default function ProductModal({
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         onSave(form);
+    };
+
+    const handleImageUpload = async (file: File | undefined) => {
+        if (!file) return;
+        setUploading(true);
+        try {
+            const uploaded = await uploadMedia(file, "greengrow/products");
+            update("image", uploaded.secure_url);
+        } catch (error) {
+            alert(error instanceof Error ? error.message : "Unable to upload product image.");
+        } finally {
+            setUploading(false);
+        }
     };
 
     return (
@@ -114,17 +140,22 @@ export default function ProductModal({
                                     <Upload className="h-6 w-6 text-slate-300" />
                                 )}
                             </div>
-                            <div className="flex-1">
+                            <div className="flex-1 space-y-2">
+                                <input
+                                    type="file"
+                                    accept="image/*"
+                                    disabled={uploading}
+                                    onChange={(e) => void handleImageUpload(e.target.files?.[0])}
+                                    className="block w-full text-xs text-slate-500 file:mr-3 file:rounded-lg file:border-0 file:bg-emerald-50 file:px-3 file:py-2 file:font-bold file:text-emerald-700"
+                                />
                                 <input
                                     type="text"
                                     value={form.image}
                                     onChange={(e) => update("image", e.target.value)}
-                                    placeholder="/assets/product_1.jpeg or URL"
+                                    placeholder="Cloudinary URL or /assets/product_1.jpeg"
                                     className="w-full rounded-xl border border-stone-200 bg-white px-3.5 py-2.5 text-sm text-slate-800 outline-none focus:border-emerald-650 focus:ring-2 focus:ring-emerald-100"
                                 />
-                                <p className="mt-1 text-xs text-slate-400">
-                                    Image upload via serverless API will be wired later.
-                                </p>
+                                <p className="text-xs text-slate-400">{uploading ? "Uploading to Cloudinary..." : "Upload an image or paste an existing URL."}</p>
                             </div>
                         </div>
                     </div>

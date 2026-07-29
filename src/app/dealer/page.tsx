@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Send, CheckCircle2, ShieldAlert, Award, PiggyBank, Truck, PhoneCall } from "lucide-react";
+import { createResource } from "@/lib/client/api";
 
 export default function DealerPage() {
   const [formData, setFormData] = useState({
@@ -17,17 +18,19 @@ export default function DealerPage() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    setTimeout(() => {
-      setIsSubmitting(false);
+    setSubmitError(null);
+    try {
+      await createResource("dealers", formData);
       setSubmitted(true);
       setFormData({
         fullName: "",
@@ -40,7 +43,11 @@ export default function DealerPage() {
         cityState: "",
         message: ""
       });
-    }, 1500);
+    } catch (error) {
+      setSubmitError(error instanceof Error ? error.message : "Unable to submit your application.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const benefits = [
@@ -68,7 +75,7 @@ export default function DealerPage() {
 
   return (
     <div className="py-6 sm:py-10 max-w-4xl mx-auto px-4 space-y-8">
-      
+
       {/* 1. Page Header */}
       <section className="text-left space-y-0.5">
         <span className="text-[10px] font-black uppercase tracking-widest text-emerald-600">
@@ -78,7 +85,7 @@ export default function DealerPage() {
           Become a Dealer or Distributor
         </h1>
         <p className="text-stone-500 text-xs sm:text-sm font-medium max-w-xl">
-          Partner with India's fastest-growing D2C fertilizer brand. Fill out the application below to request margin rates and territory details.
+          Partner with {"India's"} fastest-growing D2C fertilizer brand. Fill out the application below to request margin rates and territory details.
         </p>
       </section>
 
@@ -89,8 +96,8 @@ export default function DealerPage() {
           {benefits.map((ben) => {
             const Icon = ben.icon;
             return (
-              <div 
-                key={ben.title} 
+              <div
+                key={ben.title}
                 className="shrink-0 w-[220px] md:w-full snap-start bg-white border border-stone-200/50 p-4.5 rounded-2xl shadow-sm space-y-3"
               >
                 <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
@@ -132,7 +139,7 @@ export default function DealerPage() {
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-5">
-              
+
               {/* Form Grid */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
@@ -262,6 +269,12 @@ export default function DealerPage() {
                   By submitting this form, you authorize Greengrow Fertilizer to verify registration credentials (GSTIN/PAN) and contact you regarding business representation.
                 </span>
               </div>
+
+              {submitError && (
+                <p className="rounded-xl border border-rose-200 bg-rose-50 px-3 py-2.5 text-xs font-semibold text-rose-700" role="alert">
+                  {submitError}
+                </p>
+              )}
 
               <button
                 type="submit"

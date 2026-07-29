@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { Inbox, Mail, Phone, MapPin, Store, FileText, X } from "lucide-react";
 import { DEALER_APPLICATIONS, type DealerApplication } from "@/data/adminContent";
+import { updateResource } from "@/lib/client/api";
+import { useResource } from "@/lib/client/useResource";
 
 const statusStyles: Record<DealerApplication["status"], string> = {
   New: "bg-emerald-50 text-emerald-700",
@@ -12,15 +14,26 @@ const statusStyles: Record<DealerApplication["status"], string> = {
 };
 
 export default function DealersInbox() {
-  const [items, setItems] = useState<DealerApplication[]>(DEALER_APPLICATIONS);
+  const { items, setItems, error } = useResource<DealerApplication>("dealers", DEALER_APPLICATIONS);
   const [selected, setSelected] = useState<DealerApplication | null>(null);
   const [filter, setFilter] = useState<"All" | DealerApplication["status"]>("All");
 
   const filtered = filter === "All" ? items : items.filter((d) => d.status === filter);
 
-  const updateStatus = (id: string, status: DealerApplication["status"]) => {
-    setItems((p) => p.map((d) => (d.id === id ? { ...d, status } : d)));
-    setSelected((s) => (s && s.id === id ? { ...s, status } : s));
+  const updateStatus = async (id: string, status: DealerApplication["status"]) => {
+    const previousItems = items;
+    const previousSelected = selected;
+    const nextItems = items.map((d) => (d.id === id ? { ...d, status } : d));
+    setItems(nextItems);
+    setSelected((current) => (current?.id === id ? { ...current, status } : current));
+    try {
+      const updated = await updateResource<{ status: DealerApplication["status"] }>("dealers", id, { status });
+      setItems((current) => current.map((item) => (item.id === id ? { ...item, ...updated } : item)));
+      setSelected((current) => (current?.id === id ? { ...current, ...updated } : current));
+    } catch {
+      setItems(previousItems);
+      setSelected(previousSelected);
+    }
   };
 
   return (
@@ -29,6 +42,12 @@ export default function DealersInbox() {
         <h1 className="font-display text-2xl font-extrabold tracking-tight text-slate-900">Dealer Applications</h1>
         <p className="text-sm text-slate-500">Partnership registration submissions from the website.</p>
       </div>
+
+      {error && (
+        <p className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
+          {error} The current mock applications remain available as a fallback.
+        </p>
+      )}
 
       {/* Filter chips */}
       <div className="flex flex-wrap gap-2">
