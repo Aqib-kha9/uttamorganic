@@ -68,9 +68,11 @@ export default function ProductDetailPage() {
                 <span className="bg-emerald-100/80 text-emerald-800 text-[10px] font-black px-3.5 py-1.5 rounded-full uppercase tracking-wider">
                   {product.category}
                 </span>
-                <span className="bg-amber-100 text-amber-850 text-[10px] font-black px-3.5 py-1.5 rounded-full uppercase tracking-wider">
-                  {product.discount}% OFF
-                </span>
+                {product.discount > 0 && (
+                  <span className="bg-amber-100 text-amber-850 text-[10px] font-black px-3.5 py-1.5 rounded-full uppercase tracking-wider">
+                    {product.discount}% OFF
+                  </span>
+                )}
               </div>
 
               {/* Product Visual Packaging Container */}
@@ -226,9 +228,11 @@ export default function ProductDetailPage() {
                 className="bg-white border border-stone-200/50 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-305 group cursor-pointer flex flex-col justify-between h-full relative p-3"
               >
                 {/* Premium Discount Tag */}
-                <div className="absolute top-2.5 left-2.5 z-10 bg-emerald-900 text-white text-[8px] font-black px-2.5 py-0.5 rounded uppercase tracking-wider">
-                  {prod.discount}% Off
-                </div>
+                {prod.discount > 0 && (
+                  <div className="absolute top-2.5 left-2.5 z-10 bg-emerald-900 text-white text-[8px] font-black px-2.5 py-0.5 rounded uppercase tracking-wider">
+                    {prod.discount}% Off
+                  </div>
+                )}
 
                 <div>
                   {/* Visual Packaging Image Container */}

@@ -129,9 +129,11 @@ export default function Home() {
                 className="bg-white border border-stone-200/50 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 group cursor-pointer flex flex-col justify-between h-36 sm:h-40 md:h-48 lg:h-56 xl:h-60 relative text-left w-[44vw] min-w-40 max-w-52 md:w-[22vw] md:max-w-[260px] lg:w-[23.5%] lg:min-w-[260px] shrink-0 snap-start"
               >
                 {/* Premium Discount Tag */}
-                <div className="absolute top-2 left-2 lg:top-3 lg:left-3 z-10 bg-emerald-900 text-white text-[7px] lg:text-[9px] font-black px-2 py-0.5 rounded uppercase tracking-wider">
-                  {prod.discount}% Off
-                </div>
+                {prod.discount > 0 && (
+                  <div className="absolute top-2 left-2 lg:top-3 lg:left-3 z-10 bg-emerald-900 text-white text-[7px] lg:text-[9px] font-black px-2 py-0.5 rounded uppercase tracking-wider">
+                    {prod.discount}% Off
+                  </div>
+                )}
 
                 <div className="p-2 md:p-2.5 lg:p-3 flex-grow min-h-0 flex flex-col">
                   {/* Visual Packaging Image Container */}
@@ -218,9 +220,11 @@ export default function Home() {
               className="bg-white border border-stone-200/50 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 group cursor-pointer flex flex-col justify-between h-full relative text-left"
             >
               {/* Premium Discount Tag */}
-              <div className="absolute top-2.5 left-2.5 z-10 bg-emerald-900 text-white text-[8px] font-black px-2.5 py-0.5 rounded uppercase tracking-wider">
-                {prod.discount}% Off
-              </div>
+              {prod.discount > 0 && (
+                <div className="absolute top-2.5 left-2.5 z-10 bg-emerald-900 text-white text-[8px] font-black px-2.5 py-0.5 rounded uppercase tracking-wider">
+                  {prod.discount}% Off
+                </div>
+              )}
 
               <div className="p-3 flex-grow">
                 {/* Visual Packaging Image Container */}

@@ -144,9 +144,11 @@ function ProductsCatalog({
                 className="bg-white border border-stone-200/50 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 group cursor-pointer flex flex-col justify-between h-full relative"
               >
                 {/* Premium Discount Tag */}
-                <div className="absolute top-2.5 left-2.5 z-10 bg-emerald-900 text-white text-[8px] font-black px-2.5 py-0.5 rounded uppercase tracking-wider">
-                  {prod.discount}% Off
-                </div>
+                {prod.discount > 0 && (
+                  <div className="absolute top-2.5 left-2.5 z-10 bg-emerald-900 text-white text-[8px] font-black px-2.5 py-0.5 rounded uppercase tracking-wider">
+                    {prod.discount}% Off
+                  </div>
+                )}
 
                 <div className="p-3 flex-grow">
                   {/* Visual Packaging Image Container */}
