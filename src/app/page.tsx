@@ -60,7 +60,7 @@ export default function Home() {
 
   // Take first 8 products for showcase
   const featuredProducts = products.slice(0, 8);
-  const bestSellers = products.slice(4, 8);
+  const bestSellers = products.length >= 8 ? products.slice(4, 8) : products.slice(0, 4);
 
   return (
     <div className="space-y-8 pb-24 bg-stone-50/50">
