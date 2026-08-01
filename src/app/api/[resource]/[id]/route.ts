@@ -83,8 +83,7 @@ export async function DELETE(request: Request, { params }: RouteContext) {
     if (!isResourceName(resource)) return jsonError("Unknown API resource.", 404);
 
     const collection = await collectionFor(resource);
-    const result = await collection.deleteOne(idFilter(id));
-    if (!result.deletedCount) return jsonError("Resource item not found.", 404);
+    await collection.deleteOne(idFilter(id));
 
     return NextResponse.json({ success: true });
   } catch (error) {

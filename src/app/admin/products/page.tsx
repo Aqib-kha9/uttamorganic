@@ -117,6 +117,18 @@ export default function AdminProductsPage() {
         }
     };
 
+    const handleClearAll = async () => {
+        if (!confirm("Are you sure you want to delete ALL products from your catalog?")) return;
+        try {
+            for (const r of rows) {
+                await deleteResource("products", r.uid);
+            }
+            setRows([]);
+        } catch (error) {
+            alert(error instanceof Error ? error.message : "Unable to clear all products.");
+        }
+    };
+
     return (
         <div className="space-y-6">
             <div className="flex items-center justify-between">
@@ -124,9 +136,16 @@ export default function AdminProductsPage() {
                     <h1 className="font-display text-2xl font-extrabold tracking-tight text-slate-900">Products</h1>
                     <p className="text-sm text-slate-500">{rows.length} products in your catalog</p>
                 </div>
-                <button onClick={openAdd} className="inline-flex items-center gap-2 rounded-xl bg-emerald-650 px-4 py-2.5 text-sm font-bold text-white shadow-lg shadow-emerald-650/20 hover:bg-emerald-750">
-                    <Plus className="h-4 w-4" /> Add Product
-                </button>
+                <div className="flex items-center gap-2">
+                    {rows.length > 0 && (
+                        <button onClick={handleClearAll} className="inline-flex items-center gap-1.5 rounded-xl border border-rose-200 bg-rose-50 px-3 py-2 text-xs font-bold text-rose-700 hover:bg-rose-100">
+                            Clear All ({rows.length})
+                        </button>
+                    )}
+                    <button onClick={openAdd} className="inline-flex items-center gap-2 rounded-xl bg-emerald-650 px-4 py-2.5 text-sm font-bold text-white shadow-lg shadow-emerald-650/20 hover:bg-emerald-750">
+                        <Plus className="h-4 w-4" /> Add Product
+                    </button>
+                </div>
             </div>
 
             {apiError && <p className="rounded-xl bg-amber-50 px-4 py-3 text-xs text-amber-700">{apiError}</p>}

@@ -35,8 +35,11 @@ export function normalizeDocument<T extends Record<string, unknown>>(document: T
   };
 }
 
-export function idFilter(id: string): { _id: ObjectId } | { id: string } {
-  return ObjectId.isValid(id) ? { _id: new ObjectId(id) } : { id };
+export function idFilter(id: string) {
+  if (ObjectId.isValid(id)) {
+    return { $or: [{ id }, { _id: new ObjectId(id) }] };
+  }
+  return { id };
 }
 
 export function singletonDocumentId(resource: SingletonResourceName): string {
