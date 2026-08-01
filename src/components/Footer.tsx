@@ -1,7 +1,13 @@
+"use client";
+
 import Link from "next/link";
-import { Leaf, Phone, Mail, MapPin, ExternalLink } from "lucide-react";
+import { Phone, Mail, MapPin, ExternalLink } from "lucide-react";
+import { CONTACT_DETAILS, type ContactDetails } from "@/data/adminContent";
+import { useSettings } from "@/lib/client/useSettings";
 
 export default function Footer() {
+  const { data: contact } = useSettings<ContactDetails>("contact-details", CONTACT_DETAILS);
+
   const shopByCategories = [
     "Fertilizers", "Pesticides", "Fungicides", "Herbicides", "Combos"
   ];
@@ -15,6 +21,10 @@ export default function Footer() {
     { name: "Privacy Policy & Terms", href: "/privacy" }
   ];
 
+  const whatsappNumber = contact?.whatsapp || "918269108808";
+  const formattedPhone = contact?.phone || "+91 8269108808";
+  const cleanPhone = formattedPhone.replace(/\s/g, "");
+
   return (
     <footer className="bg-stone-50 text-stone-600 border-t border-stone-200/80 pt-16 pb-10">
       {/* 1. Main Footer Grid */}
@@ -24,38 +34,44 @@ export default function Footer() {
         <div className="space-y-4 text-left">
           <Link href="/" className="flex items-center gap-2">
             <img 
-              src="/assets/company_logo.png" 
-              alt="Greengrow Fertilizer Logo" 
+              src={contact?.logo || "/assets/company_logo.png"} 
+              alt={contact?.brandName || "Greengrow Fertilizer Logo"} 
               className="h-12 sm:h-14 w-auto object-contain shrink-0" 
             />
             <div>
-              <span className="text-base font-black tracking-tight text-slate-900 block">GREENGROW FERTILIZER</span>
-              <span className="text-[9px] uppercase tracking-widest text-emerald-650 font-bold block -mt-1">D2C Agrochemicals</span>
+              <span className="text-base font-black tracking-tight text-slate-900 block">{contact?.brandName || "GREENGROW FERTILIZER"}</span>
+              <span className="text-[9px] uppercase tracking-widest text-emerald-650 font-bold block -mt-1">{contact?.brandTagline || "D2C Agrochemicals"}</span>
             </div>
           </Link>
           <p className="text-xs sm:text-sm text-stone-500 leading-relaxed font-medium">
-            India's direct-to-farm crop protectant and bio-stimulant synthesis brand. Delivering certified, lab-tested batches straight from the factory door to your field.
+            {contact?.brandDescription || "India's direct-to-farm crop protectant and bio-stimulant synthesis brand. Delivering certified, lab-tested batches straight from the factory door to your field."}
           </p>
           
           {/* Social Links */}
           <div className="flex items-center gap-2.5 pt-1">
-            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-lg bg-white border border-stone-200 flex items-center justify-center text-stone-500 hover:text-emerald-600 hover:border-emerald-600/30 transition-all shadow-sm">
-              <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
-                <path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c4.56-.93 8-4.96 8-9.75z"/>
-              </svg>
-            </a>
-            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-lg bg-white border border-stone-200 flex items-center justify-center text-stone-500 hover:text-emerald-600 hover:border-emerald-600/30 transition-all shadow-sm">
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
-                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
-                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
-                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
-              </svg>
-            </a>
-            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-lg bg-white border border-stone-200 flex items-center justify-center text-stone-500 hover:text-emerald-600 hover:border-emerald-600/30 transition-all shadow-sm">
-              <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
-                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-              </svg>
-            </a>
+            {contact?.socials?.facebook && (
+              <a href={contact.socials.facebook} target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-lg bg-white border border-stone-200 flex items-center justify-center text-stone-500 hover:text-emerald-600 hover:border-emerald-600/30 transition-all shadow-sm">
+                <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                  <path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c4.56-.93 8-4.96 8-9.75z"/>
+                </svg>
+              </a>
+            )}
+            {contact?.socials?.instagram && (
+              <a href={contact.socials.instagram} target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-lg bg-white border border-stone-200 flex items-center justify-center text-stone-500 hover:text-emerald-600 hover:border-emerald-600/30 transition-all shadow-sm">
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+                  <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+                </svg>
+              </a>
+            )}
+            {contact?.socials?.twitter && (
+              <a href={contact.socials.twitter} target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-lg bg-white border border-stone-200 flex items-center justify-center text-stone-500 hover:text-emerald-600 hover:border-emerald-600/30 transition-all shadow-sm">
+                <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                </svg>
+              </a>
+            )}
           </div>
         </div>
 
@@ -93,22 +109,20 @@ export default function Footer() {
           <div className="space-y-3.5 text-xs sm:text-sm font-bold text-stone-500">
             <div className="flex items-start gap-2.5">
               <MapPin className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-              <p className="leading-normal">
-                A-103, Radhika Premier Building,<br />
-                04 Radhika Palace Colony, Bombay Hospital to Tulsi Nagar Main Road,<br />
-                Indore - 452010, Madhya Pradesh, India
+              <p className="leading-normal whitespace-pre-line">
+                {contact?.address}
               </p>
             </div>
             <div className="flex items-center gap-2.5">
               <Phone className="w-4 h-4 text-emerald-600 shrink-0" />
-              <a href="tel:+918269108808" className="hover:text-emerald-650 transition-colors">
-                +91 8269108808
+              <a href={`tel:${cleanPhone}`} className="hover:text-emerald-650 transition-colors">
+                {formattedPhone}
               </a>
             </div>
             <div className="flex items-center gap-2.5">
               <Mail className="w-4 h-4 text-emerald-600 shrink-0" />
-              <a href="mailto:greengrowfertilizer25@gmail.com" className="hover:text-emerald-650 transition-colors">
-                greengrowfertilizer25@gmail.com
+              <a href={`mailto:${contact?.email}`} className="hover:text-emerald-650 transition-colors">
+                {contact?.email}
               </a>
             </div>
           </div>
@@ -119,13 +133,13 @@ export default function Footer() {
       {/* 3. Bottom Copyright and links */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 mt-6 border-t border-stone-200/60 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs font-bold text-stone-500">
         <div className="text-center sm:text-left space-y-1">
-          <p>© {new Date().getFullYear()} GREENGROW FERTILIZER PRIVATE LIMITED. All rights reserved.</p>
-          <p className="text-[10px] text-stone-400 font-normal">CIN: U20129MP2025PTC080802 | GSTIN: 23AAMCG6217C1ZX</p>
+          <p>© {new Date().getFullYear()} {contact?.companyName || "GREENGROW FERTILIZER PRIVATE LIMITED"}. All rights reserved.</p>
+          <p className="text-[10px] text-stone-400 font-normal">CIN: {contact?.cin} | GSTIN: {contact?.gstin}</p>
         </div>
         <div className="flex gap-5">
           <Link href="/privacy" className="hover:text-stone-700">Privacy Policy</Link>
           <Link href="/privacy" className="hover:text-stone-700">Terms of Service</Link>
-          <a href="https://wa.me/918269108808" target="_blank" rel="noopener noreferrer" className="text-emerald-650 hover:text-emerald-700 flex items-center gap-1">
+          <a href={`https://wa.me/${whatsappNumber.replace(/\D/g, "")}`} target="_blank" rel="noopener noreferrer" className="text-emerald-650 hover:text-emerald-700 flex items-center gap-1">
             WhatsApp Support <ExternalLink className="w-3.5 h-3.5" />
           </a>
         </div>

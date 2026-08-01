@@ -3,12 +3,12 @@
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { ArrowLeft, Star, ShoppingBag, ShieldCheck, CheckCircle2, MessageCircle } from "lucide-react";
-import { PRODUCTS, Product } from "@/data/products";
+import type { Product } from "@/data/products";
 import { useResource } from "@/lib/client/useResource";
 
 export default function ProductDetailPage() {
   const { id } = useParams<{ id: string }>();
-  const { items: products, loading } = useResource<Product>("products", PRODUCTS);
+  const { items: products, loading } = useResource<Product>("products");
   const product = products.find((item) => item.id === id);
 
   if (!product) {

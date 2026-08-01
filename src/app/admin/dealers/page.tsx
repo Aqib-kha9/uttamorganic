@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Inbox, Mail, Phone, MapPin, Store, FileText, X } from "lucide-react";
-import { DEALER_APPLICATIONS, type DealerApplication } from "@/data/adminContent";
+import type { DealerApplication } from "@/data/adminContent";
 import { updateResource } from "@/lib/client/api";
 import { useResource } from "@/lib/client/useResource";
 
@@ -14,7 +14,7 @@ const statusStyles: Record<DealerApplication["status"], string> = {
 };
 
 export default function DealersInbox() {
-  const { items, setItems, error } = useResource<DealerApplication>("dealers", DEALER_APPLICATIONS);
+  const { items, setItems, error } = useResource<DealerApplication>("dealers");
   const [selected, setSelected] = useState<DealerApplication | null>(null);
   const [filter, setFilter] = useState<"All" | DealerApplication["status"]>("All");
 
@@ -44,8 +44,8 @@ export default function DealersInbox() {
       </div>
 
       {error && (
-        <p className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
-          {error} The current mock applications remain available as a fallback.
+        <p className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-xs font-semibold text-amber-800">
+          {error}
         </p>
       )}
 

@@ -2,12 +2,12 @@
 
 import { useState } from "react";
 import { Plus, Pencil, Trash2 } from "lucide-react";
-import { CROP_ITEMS, type CropItem } from "@/data/adminContent";
+import type { CropItem } from "@/data/adminContent";
 import Modal, { Field, ImageField, SaveFooter, inputCls } from "@/components/admin/Modal";
 import { useResource } from "@/lib/client/useResource";
 
 export default function CropsManager() {
-    const { items, error, save: saveItem, remove: removeItem } = useResource<CropItem>("crops", CROP_ITEMS);
+    const { items, error, save: saveItem, remove: removeItem } = useResource<CropItem>("crops");
     const [open, setOpen] = useState(false);
     const [editing, setEditing] = useState<CropItem | null>(null);
     const [form, setForm] = useState<CropItem>({ id: "", name: "", icon: "", desc: "", image: "" });
@@ -51,7 +51,7 @@ export default function CropsManager() {
                 </button>
             </div>
 
-            {error && <p className="rounded-xl bg-amber-50 px-4 py-3 text-xs text-amber-700">Using local fallback data: {error}</p>}
+            {error && <p className="rounded-xl bg-amber-50 px-4 py-3 text-xs text-amber-700">{error}</p>}
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 {items.map((c) => (
                     <div key={c.id} className="overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm">

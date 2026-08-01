@@ -2,11 +2,15 @@
 
 import { usePathname } from "next/navigation";
 import { MessageCircle } from "lucide-react";
+import { CONTACT_DETAILS, type ContactDetails } from "@/data/adminContent";
+import { useSettings } from "@/lib/client/useSettings";
 
 export default function WhatsAppWidget() {
   const pathname = usePathname();
-  const message = encodeURIComponent("Hello Greengrow Fertilizer! I am interested in your products and would like to receive product catalogues and dealer options.");
-  const whatsappUrl = `https://wa.me/918269108808?text=${message}`;
+  const { data: contact } = useSettings<ContactDetails>("contact-details", CONTACT_DETAILS);
+  const whatsappNum = (contact?.whatsapp || "918269108808").replace(/\D/g, "");
+  const message = encodeURIComponent(`Hello ${contact?.brandName || "Greengrow Fertilizer"}! I am interested in your products and would like to receive product catalogues and dealer options.`);
+  const whatsappUrl = `https://wa.me/${whatsappNum}?text=${message}`;
 
   if (pathname === "/") {
     return null;

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo, useEffect } from "react";
-import { PRODUCTS, type Product } from "@/data/products";
+import type { Product } from "@/data/products";
 import ProductModal, {
     type ProductFormData,
 } from "@/components/admin/ProductModal";
@@ -32,7 +32,7 @@ const toRow = (p: Product & { stock?: number }): RowProduct => ({
 });
 
 export default function AdminProductsPage() {
-    const [rows, setRows] = useState<RowProduct[]>(PRODUCTS.map(toRow));
+    const [rows, setRows] = useState<RowProduct[]>([]);
     const [query, setQuery] = useState("");
     const [categoryFilter, setCategoryFilter] = useState("All");
     const [modalOpen, setModalOpen] = useState(false);
@@ -47,6 +47,7 @@ export default function AdminProductsPage() {
                 setApiError(null);
             })
             .catch((error: unknown) => {
+                setRows([]);
                 setApiError(error instanceof Error ? error.message : "Unable to load products.");
             });
     }, []);
@@ -128,7 +129,7 @@ export default function AdminProductsPage() {
                 </button>
             </div>
 
-            {apiError && <p className="rounded-xl bg-amber-50 px-4 py-3 text-xs text-amber-700">Using local fallback data: {apiError}</p>}
+            {apiError && <p className="rounded-xl bg-amber-50 px-4 py-3 text-xs text-amber-700">{apiError}</p>}
 
             {/* Toolbar */}
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center">

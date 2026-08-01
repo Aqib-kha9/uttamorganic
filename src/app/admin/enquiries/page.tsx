@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Inbox, Mail, Phone, MapPin, MessageSquare, X } from "lucide-react";
-import { CONTACT_ENQUIRIES, type ContactEnquiry } from "@/data/adminContent";
+import type { ContactEnquiry } from "@/data/adminContent";
 import { updateResource } from "@/lib/client/api";
 import { useResource } from "@/lib/client/useResource";
 
@@ -13,7 +13,7 @@ const statusStyles: Record<ContactEnquiry["status"], string> = {
 };
 
 export default function EnquiriesInbox() {
-  const { items, setItems, error } = useResource<ContactEnquiry>("enquiries", CONTACT_ENQUIRIES);
+  const { items, setItems, error } = useResource<ContactEnquiry>("enquiries");
   const [selected, setSelected] = useState<ContactEnquiry | null>(null);
   const [filter, setFilter] = useState<"All" | ContactEnquiry["status"]>("All");
 
@@ -43,8 +43,8 @@ export default function EnquiriesInbox() {
       </div>
 
       {error && (
-        <p className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
-          {error} The current mock enquiries remain available as a fallback.
+        <p className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-xs font-semibold text-amber-800">
+          {error}
         </p>
       )}
 

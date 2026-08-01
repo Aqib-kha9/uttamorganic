@@ -4,7 +4,7 @@ import { useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { Search, Star, RotateCcw } from "lucide-react";
-import { PRODUCTS, Product } from "@/data/products";
+import type { Product } from "@/data/products";
 import ProductModal from "@/components/ProductModal";
 import { useResource } from "@/lib/client/useResource";
 
@@ -30,7 +30,7 @@ function ProductsCatalog({
   const [searchQuery, setSearchQuery] = useState(initialSearch);
   const [selectedCategory, setSelectedCategory] = useState(initialCategory);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-  const { items: products, error } = useResource<Product>("products", PRODUCTS);
+  const { items: products, error } = useResource<Product>("products");
 
   const categories = ["All", "Fertilizers", "Pesticides", "Fungicides", "Herbicides", "Combos"];
 
@@ -115,7 +115,7 @@ function ProductsCatalog({
 
       {error && (
         <p className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-xs font-semibold text-amber-800">
-          Live catalog is temporarily unavailable. Showing the saved catalog.
+          {error}
         </p>
       )}
 

@@ -57,8 +57,8 @@ export default function D2CManager() {
             </div>
 
             {apiError && (
-                <p className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
-                    {apiError} The current mock content remains available as a fallback.
+                <p className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-xs font-semibold text-amber-800">
+                    {apiError}
                 </p>
             )}
 

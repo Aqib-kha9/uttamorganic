@@ -13,42 +13,51 @@ import {
     ArrowRight,
     TrendingUp,
 } from "lucide-react";
-import {
-    HERO_SLIDES,
-    CATEGORY_ITEMS,
-    CROP_ITEMS,
-    BLOG_ITEMS,
-    DEALER_APPLICATIONS,
-    CONTACT_ENQUIRIES,
+import type {
+    HeroSlide,
+    CategoryItem,
+    CropItem,
+    BlogItem,
+    DealerApplication,
+    ContactEnquiry,
 } from "@/data/adminContent";
-
-const cards = [
-    { label: "Hero Slides", count: HERO_SLIDES.length, href: "/admin/hero", icon: ImageIcon, tint: "bg-emerald-50 text-emerald-700" },
-    { label: "Categories", count: CATEGORY_ITEMS.length, href: "/admin/categories", icon: LayoutGrid, tint: "bg-sky-50 text-sky-700" },
-    { label: "Crop Schedules", count: CROP_ITEMS.length, href: "/admin/crops", icon: Sprout, tint: "bg-amber-50 text-amber-700" },
-    { label: "Products", count: 4, href: "/admin/products", icon: Package, tint: "bg-violet-50 text-violet-700" },
-    { label: "Blogs", count: BLOG_ITEMS.length, href: "/admin/blogs", icon: Newspaper, tint: "bg-rose-50 text-rose-700" },
-    { label: "D2C Section", count: 1, href: "/admin/d2c", icon: Truck, tint: "bg-teal-50 text-teal-700" },
-];
-
-const inboxStats = [
-    {
-        label: "Dealer Applications",
-        count: DEALER_APPLICATIONS.filter((d) => d.status === "New").length,
-        total: DEALER_APPLICATIONS.length,
-        href: "/admin/dealers",
-        icon: Inbox,
-    },
-    {
-        label: "Contact Enquiries",
-        count: CONTACT_ENQUIRIES.filter((e) => e.status === "New").length,
-        total: CONTACT_ENQUIRIES.length,
-        href: "/admin/enquiries",
-        icon: Phone,
-    },
-];
+import type { Product } from "@/data/products";
+import { useResource } from "@/lib/client/useResource";
 
 export default function AdminDashboard() {
+    const { items: slides } = useResource<HeroSlide>("hero");
+    const { items: categories } = useResource<CategoryItem>("categories");
+    const { items: crops } = useResource<CropItem>("crops");
+    const { items: products } = useResource<Product>("products");
+    const { items: blogs } = useResource<BlogItem>("blogs");
+    const { items: dealers } = useResource<DealerApplication>("dealers");
+    const { items: enquiries } = useResource<ContactEnquiry>("enquiries");
+
+    const cards = [
+        { label: "Hero Slides", count: slides.length, href: "/admin/hero", icon: ImageIcon, tint: "bg-emerald-50 text-emerald-700" },
+        { label: "Categories", count: categories.length, href: "/admin/categories", icon: LayoutGrid, tint: "bg-sky-50 text-sky-700" },
+        { label: "Crop Schedules", count: crops.length, href: "/admin/crops", icon: Sprout, tint: "bg-amber-50 text-amber-700" },
+        { label: "Products", count: products.length, href: "/admin/products", icon: Package, tint: "bg-violet-50 text-violet-700" },
+        { label: "Blogs", count: blogs.length, href: "/admin/blogs", icon: Newspaper, tint: "bg-rose-50 text-rose-700" },
+        { label: "D2C Section", count: 1, href: "/admin/d2c", icon: Truck, tint: "bg-teal-50 text-teal-700" },
+    ];
+
+    const inboxStats = [
+        {
+            label: "Dealer Applications",
+            count: dealers.filter((d) => d.status === "New").length,
+            total: dealers.length,
+            href: "/admin/dealers",
+            icon: Inbox,
+        },
+        {
+            label: "Contact Enquiries",
+            count: enquiries.filter((e) => e.status === "New").length,
+            total: enquiries.length,
+            href: "/admin/enquiries",
+            icon: Phone,
+        },
+    ];
     return (
         <div className="space-y-8">
             {/* Welcome banner */}

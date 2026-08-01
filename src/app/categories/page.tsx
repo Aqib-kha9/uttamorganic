@@ -2,11 +2,11 @@
 
 import Link from "next/link";
 import { BookOpen } from "lucide-react";
-import { CATEGORY_ITEMS, type CategoryItem } from "@/data/adminContent";
+import type { CategoryItem } from "@/data/adminContent";
 import { useResource } from "@/lib/client/useResource";
 
 export default function CategoriesPage() {
-  const { items: categories, error } = useResource<CategoryItem>("categories", CATEGORY_ITEMS);
+  const { items: categories, error } = useResource<CategoryItem>("categories");
 
   return (
     <div className="py-6 sm:py-10 max-w-7xl mx-auto px-4 space-y-8">
@@ -26,7 +26,7 @@ export default function CategoriesPage() {
 
       {error && (
         <p className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-xs font-semibold text-amber-800">
-          Live categories are temporarily unavailable. Showing the saved categories.
+          {error}
         </p>
       )}
 

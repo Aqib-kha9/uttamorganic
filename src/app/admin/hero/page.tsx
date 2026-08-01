@@ -2,12 +2,12 @@
 
 import { useState } from "react";
 import { Plus, Pencil, Trash2, Image as ImageIcon } from "lucide-react";
-import { HERO_SLIDES, type HeroSlide } from "@/data/adminContent";
+import type { HeroSlide } from "@/data/adminContent";
 import Modal, { Field, ImageField, SaveFooter, inputCls } from "@/components/admin/Modal";
 import { useResource } from "@/lib/client/useResource";
 
 export default function HeroManager() {
-    const { items: slides, error, save: saveSlide, remove: removeSlide } = useResource<HeroSlide>("hero", HERO_SLIDES);
+    const { items: slides, error, save: saveSlide, remove: removeSlide } = useResource<HeroSlide>("hero");
     const [open, setOpen] = useState(false);
     const [editing, setEditing] = useState<HeroSlide | null>(null);
     const [form, setForm] = useState<HeroSlide>({ id: "", image: "", headline: "", subtext: "" });
@@ -62,7 +62,7 @@ export default function HeroManager() {
                 </button>
             </div>
 
-            {error && <p className="rounded-xl bg-amber-50 px-4 py-3 text-xs text-amber-700">Using local fallback data: {error}</p>}
+            {error && <p className="rounded-xl bg-amber-50 px-4 py-3 text-xs text-amber-700">{error}</p>}
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 {slides.map((s) => (
                     <div key={s.id} className="overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm">

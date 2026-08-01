@@ -3,18 +3,13 @@
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { ArrowRight, Star } from "lucide-react";
-import { PRODUCTS, Product } from "@/data/products";
-import {
-  BLOG_ITEMS,
-  CATEGORY_ITEMS,
-  CROP_ITEMS,
-  D2C_SECTION,
-  HERO_SLIDES,
-  type BlogItem,
-  type CategoryItem,
-  type CropItem,
-  type D2CSection,
-  type HeroSlide,
+import type { Product } from "@/data/products";
+import type {
+  BlogItem,
+  CategoryItem,
+  CropItem,
+  D2CSection,
+  HeroSlide,
 } from "@/data/adminContent";
 import ProductModal from "@/components/ProductModal";
 import { useResource } from "@/lib/client/useResource";
@@ -23,12 +18,12 @@ import { useSettings } from "@/lib/client/useSettings";
 export default function Home() {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [currentSlide, setCurrentSlide] = useState(0);
-  const { items: products } = useResource<Product>("products", PRODUCTS);
-  const { items: slides } = useResource<HeroSlide>("hero", HERO_SLIDES);
-  const { items: categories } = useResource<CategoryItem>("categories", CATEGORY_ITEMS);
-  const { items: crops } = useResource<CropItem>("crops", CROP_ITEMS);
-  const { items: blogs } = useResource<BlogItem>("blogs", BLOG_ITEMS);
-  const { data: d2c } = useSettings<D2CSection>("d2c", D2C_SECTION);
+  const { items: products } = useResource<Product>("products");
+  const { items: slides } = useResource<HeroSlide>("hero");
+  const { items: categories } = useResource<CategoryItem>("categories");
+  const { items: crops } = useResource<CropItem>("crops");
+  const { items: blogs } = useResource<BlogItem>("blogs");
+  const { data: d2c } = useSettings<D2CSection | null>("d2c", null);
 
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -77,7 +72,7 @@ export default function Home() {
             {/* Sliding Background Image */}
             <div
               className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-all duration-1000 ease-in-out"
-              style={{ backgroundImage: `url('${slides[currentSlide]?.image ?? HERO_SLIDES[0].image}')` }}
+              style={{ backgroundImage: slides[currentSlide]?.image ? `url('${slides[currentSlide].image}')` : "none" }}
             />
             <div className="absolute inset-0 bg-black/40" />
 
@@ -175,42 +170,32 @@ export default function Home() {
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3.5">
-          {(() => {
-            const cropImages = [
-              "/assets/hero_1.jpeg", // Tomato
-              "/assets/hero_2.jpeg", // Cotton
-              "/assets/hero_3.jpeg", // Paddy
-              "/assets/hero_2.jpeg", // Chilli
-              "/assets/product_2.jpeg", // Sugarcane
-              "/assets/product_3.jpeg", // Wheat
-              "/assets/product_4.jpeg", // Brinjal
-              "/assets/hero_1.jpeg"  // Mango
-            ];
-
-            return crops.map((crop, idx) => (
-              <Link
-                key={crop.name}
-                href={`/products?search=${crop.name}`}
-                className="relative rounded-2xl overflow-hidden shadow-sm h-36 w-full flex items-end group cursor-pointer border border-stone-200/50"
-              >
+          {crops.map((crop) => (
+            <Link
+              key={crop.id || crop.name}
+              href={`/products?search=${encodeURIComponent(crop.name)}`}
+              className="relative rounded-2xl overflow-hidden shadow-sm h-36 w-full flex items-end group cursor-pointer border border-stone-200/50 bg-stone-900"
+            >
+              {crop.image && (
                 <img
-                  src={cropImages[idx]}
+                  src={crop.image}
                   alt={crop.name}
                   className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-stone-950 via-stone-900/40 to-transparent group-hover:via-stone-900/50 transition-all" />
+              )}
+              <div className="absolute inset-0 bg-gradient-to-t from-stone-950 via-stone-900/40 to-transparent group-hover:via-stone-900/50 transition-all" />
 
-                <div className="relative z-10 p-3.5 space-y-0.5 w-full">
-                  <h3 className="text-xs sm:text-sm font-black text-white leading-tight">
-                    {crop.name}
-                  </h3>
-                  <p className="text-[9px] text-stone-300 font-semibold truncate leading-none">
-                    {crop.desc}
-                  </p>
-                </div>
-              </Link>
-            ));
-          })()}
+              <div className="relative z-10 p-3.5 space-y-0.5 w-full">
+                <h3 className="text-xs sm:text-sm font-black text-white leading-tight flex items-center gap-1.5">
+                  {crop.icon && <span className="text-sm shrink-0">{crop.icon}</span>}
+                  <span className="truncate">{crop.name}</span>
+                </h3>
+                <p className="text-[9px] text-stone-300 font-semibold truncate leading-none">
+                  {crop.desc}
+                </p>
+              </div>
+            </Link>
+          ))}
         </div>
       </section>
 
@@ -310,53 +295,57 @@ export default function Home() {
      
 
       {/* 6. D2C Feature Section - Mobile-First Unified Image Overlay Card */}
-      <section className="max-w-7xl mx-auto px-4">
-        <div className="relative rounded-3xl overflow-hidden shadow-sm h-56 sm:h-64 md:h-[260px] bg-stone-900 w-full flex items-end p-4.5 sm:p-8">
-          {/* Background Image */}
-          <img
-            src={d2c.image}
-            alt="Greengrow Fertilizer factory dispatch unit"
-            className="absolute inset-0 w-full h-full object-cover"
-          />
-          {/* Dark Gradient Mask for Text Contrast */}
-          <div className="absolute inset-0 bg-gradient-to-t from-stone-950 via-stone-900/60 to-transparent" />
+      {d2c && (
+        <section className="max-w-7xl mx-auto px-4">
+          <div className="relative rounded-3xl overflow-hidden shadow-sm h-56 sm:h-64 md:h-[260px] bg-stone-900 w-full flex items-end p-4.5 sm:p-8">
+            {/* Background Image */}
+            {d2c.image && (
+              <img
+                src={d2c.image}
+                alt="Greengrow Fertilizer factory dispatch unit"
+                className="absolute inset-0 w-full h-full object-cover"
+              />
+            )}
+            {/* Dark Gradient Mask for Text Contrast */}
+            <div className="absolute inset-0 bg-gradient-to-t from-stone-950 via-stone-900/60 to-transparent" />
 
-          {/* Overlay Typography Container */}
-          <div className="relative z-10 max-w-2xl space-y-2.5 text-white text-left">
-            <div className="space-y-0.5">
-              <span className="text-[8px] sm:text-[9px] font-black text-emerald-450 uppercase tracking-widest block">
-                {d2c.badge}
-              </span>
-              <h2 className="text-sm sm:text-xl md:text-2xl font-black leading-tight">
-                {d2c.heading}
-              </h2>
-            </div>
-
-            <p className="text-stone-300 text-[9px] sm:text-xs leading-normal max-w-xl font-medium">
-              {d2c.description}
-            </p>
-
-            {/* Compact Horizontal Row for Mobile */}
-            <div className="flex flex-wrap gap-x-3.5 gap-y-1.5 text-[8px] sm:text-[10px] font-black text-emerald-400">
-              {d2c.bullets.map((bullet) => (
-                <span key={bullet} className="flex items-center gap-1">
-                  <span className="w-1 h-1 rounded-full bg-emerald-400 shrink-0" />
-                  {bullet}
+            {/* Overlay Typography Container */}
+            <div className="relative z-10 max-w-2xl space-y-2.5 text-white text-left">
+              <div className="space-y-0.5">
+                <span className="text-[8px] sm:text-[9px] font-black text-emerald-450 uppercase tracking-widest block">
+                  {d2c.badge}
                 </span>
-              ))}
-            </div>
+                <h2 className="text-sm sm:text-xl md:text-2xl font-black leading-tight">
+                  {d2c.heading}
+                </h2>
+              </div>
 
-            <div className="pt-0.5">
-              <Link
-                href="/about"
-                className="bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-2.5 rounded-xl font-black text-[9px] sm:text-xs uppercase tracking-wider inline-block shadow-md transition-all duration-300"
-              >
-                {d2c.ctaText}
-              </Link>
+              <p className="text-stone-300 text-[9px] sm:text-xs leading-normal max-w-xl font-medium">
+                {d2c.description}
+              </p>
+
+              {/* Compact Horizontal Row for Mobile */}
+              <div className="flex flex-wrap gap-x-3.5 gap-y-1.5 text-[8px] sm:text-[10px] font-black text-emerald-400">
+                {(d2c.bullets || []).map((bullet) => (
+                  <span key={bullet} className="flex items-center gap-1">
+                    <span className="w-1 h-1 rounded-full bg-emerald-400 shrink-0" />
+                    {bullet}
+                  </span>
+                ))}
+              </div>
+
+              <div className="pt-0.5">
+                <Link
+                  href="/about"
+                  className="bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-2.5 rounded-xl font-black text-[9px] sm:text-xs uppercase tracking-wider inline-block shadow-md transition-all duration-300"
+                >
+                  {d2c.ctaText || "Learn More"}
+                </Link>
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
      
 
       {/* 7. Agricultural Blogs - Premium Editorial Grid */}

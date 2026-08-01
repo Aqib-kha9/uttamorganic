@@ -35,17 +35,19 @@ export default function AboutPage() {
       <section className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-emerald-50/60 via-stone-50/30 to-white border border-emerald-100/20 p-8 sm:p-12 md:p-16 text-left max-w-5xl mx-auto shadow-sm">
         <div className="absolute right-0 top-0 w-64 h-64 bg-emerald-100/10 rounded-full blur-3xl pointer-events-none" />
         <div className="space-y-4 max-w-2xl">
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-black uppercase tracking-wider">
-            {d2c.badge}
-          </span>
+          {d2c?.badge && (
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-black uppercase tracking-wider">
+              {d2c.badge}
+            </span>
+          )}
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight leading-tight">
-            {d2c.heading}
+            {d2c?.heading || "About Greengrow Fertilizer"}
           </h1>
           <p className="text-stone-500 text-sm sm:text-base leading-relaxed font-medium">
-            {d2c.description}
+            {d2c?.description || "Direct to farm crop protection and bio-stimulant synthesis brand."}
           </p>
           <div className="flex flex-wrap gap-2 pt-1">
-            {d2c.bullets.map((bullet) => (
+            {(d2c?.bullets || []).map((bullet) => (
               <span key={bullet} className="rounded-full border border-emerald-200 bg-white px-3 py-1 text-[10px] font-black uppercase tracking-wide text-emerald-800">
                 {bullet}
               </span>

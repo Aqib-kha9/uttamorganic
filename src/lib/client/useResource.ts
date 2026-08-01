@@ -9,7 +9,7 @@ import {
   updateResource,
 } from "./api";
 
-export function useResource<T extends { id: string }>(resource: ApiResource, fallback: T[]) {
+export function useResource<T extends { id: string }>(resource: ApiResource, fallback: T[] = []) {
   const [items, setItems] = useState<T[]>(fallback);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -21,6 +21,7 @@ export function useResource<T extends { id: string }>(resource: ApiResource, fal
       setItems(data);
       setError(null);
     } catch (requestError) {
+      setItems([]);
       setError(requestError instanceof Error ? requestError.message : "Unable to load data.");
     } finally {
       setLoading(false);
@@ -38,6 +39,7 @@ export function useResource<T extends { id: string }>(resource: ApiResource, fal
       })
       .catch((requestError: unknown) => {
         if (!active) return;
+        setItems([]);
         setError(requestError instanceof Error ? requestError.message : "Unable to load data.");
       })
       .finally(() => {

@@ -42,14 +42,24 @@ export async function PATCH(request: Request, { params }: RouteContext) {
     if (!isResourceName(resource)) return jsonError("Unknown API resource.", 404);
 
     const body = await parseJsonBody(request);
-    const { _id: ignoredDatabaseId, ...safeBody } = body;
+    const {
+      _id: ignoredDatabaseId,
+      _createdAt: ignoredCreatedAt,
+      _updatedAt: ignoredUpdatedAt,
+      ...safeBody
+    } = body;
     void ignoredDatabaseId;
+    void ignoredCreatedAt;
+    void ignoredUpdatedAt;
 
     const collection = await collectionFor(resource);
     const result = await collection.findOneAndUpdate(
       idFilter(id),
-      { $set: { ...safeBody, _updatedAt: nowIso() } },
-      { returnDocument: "after" },
+      {
+        $set: { ...safeBody, id, _updatedAt: nowIso() },
+        $setOnInsert: { _createdAt: nowIso() },
+      },
+      { upsert: true, returnDocument: "after" },
     );
 
     if (!result) return jsonError("Resource item not found.", 404);

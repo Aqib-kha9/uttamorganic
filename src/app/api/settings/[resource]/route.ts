@@ -44,12 +44,22 @@ export async function PUT(request: Request, { params }: RouteContext) {
     if (!isSingletonResourceName(resource)) return jsonError("Unknown settings resource.", 404);
 
     const body = await parseJsonBody(request);
+    const {
+      _id: ignoredDbId,
+      _createdAt: ignoredCreatedAt,
+      _updatedAt: ignoredUpdatedAt,
+      ...safeBody
+    } = body;
+    void ignoredDbId;
+    void ignoredCreatedAt;
+    void ignoredUpdatedAt;
+
     const id = singletonDocumentId(resource);
     const database = await getDatabase();
     const document = await database.collection("settings").findOneAndUpdate(
       { id },
       {
-        $set: { ...body, id, _updatedAt: nowIso() },
+        $set: { ...safeBody, id, _updatedAt: nowIso() },
         $setOnInsert: { _createdAt: nowIso() },
       },
       { upsert: true, returnDocument: "after" },

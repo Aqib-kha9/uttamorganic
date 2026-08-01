@@ -2,12 +2,12 @@
 
 import { useState } from "react";
 import { Plus, Pencil, Trash2 } from "lucide-react";
-import { CATEGORY_ITEMS, type CategoryItem } from "@/data/adminContent";
+import type { CategoryItem } from "@/data/adminContent";
 import Modal, { Field, ImageField, SaveFooter, inputCls } from "@/components/admin/Modal";
 import { useResource } from "@/lib/client/useResource";
 
 export default function CategoriesManager() {
-    const { items, error, save: saveItem, remove: removeItem } = useResource<CategoryItem>("categories", CATEGORY_ITEMS);
+    const { items, error, save: saveItem, remove: removeItem } = useResource<CategoryItem>("categories");
     const [open, setOpen] = useState(false);
     const [editing, setEditing] = useState<CategoryItem | null>(null);
     const [form, setForm] = useState<CategoryItem>({ id: "", name: "", count: 0, desc: "", image: "" });
@@ -39,6 +39,17 @@ export default function CategoriesManager() {
         }
     };
 
+    const clearAll = async () => {
+        if (!confirm("Are you sure you want to delete ALL categories from the database?")) return;
+        try {
+            for (const item of items) {
+                await removeItem(item.id);
+            }
+        } catch (clearError) {
+            alert(clearError instanceof Error ? clearError.message : "Unable to clear all categories.");
+        }
+    };
+
     return (
         <div className="space-y-6">
             <div className="flex items-center justify-between">
@@ -46,12 +57,19 @@ export default function CategoriesManager() {
                     <h1 className="font-display text-2xl font-extrabold tracking-tight text-slate-900">Categories</h1>
                     <p className="text-sm text-slate-500">Manage the {`"Shop by Categories"`} tiles on the homepage.</p>
                 </div>
-                <button onClick={openNew} className="inline-flex items-center gap-2 rounded-xl bg-emerald-650 px-4 py-2.5 text-sm font-bold text-white shadow-lg shadow-emerald-650/20 hover:bg-emerald-750">
-                    <Plus className="h-4 w-4" /> Add Category
-                </button>
+                <div className="flex items-center gap-2">
+                    {items.length > 0 && (
+                        <button onClick={clearAll} className="inline-flex items-center gap-1.5 rounded-xl border border-rose-200 bg-rose-50 px-3 py-2 text-xs font-bold text-rose-700 hover:bg-rose-100">
+                            Clear All ({items.length})
+                        </button>
+                    )}
+                    <button onClick={openNew} className="inline-flex items-center gap-2 rounded-xl bg-emerald-650 px-4 py-2.5 text-sm font-bold text-white shadow-lg shadow-emerald-650/20 hover:bg-emerald-750">
+                        <Plus className="h-4 w-4" /> Add Category
+                    </button>
+                </div>
             </div>
 
-            {error && <p className="rounded-xl bg-amber-50 px-4 py-3 text-xs text-amber-700">Using local fallback data: {error}</p>}
+            {error && <p className="rounded-xl bg-amber-50 px-4 py-3 text-xs text-amber-700">{error}</p>}
             <div className="overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm">
                 <table className="w-full text-left text-sm">
                     <thead className="border-b border-stone-100 bg-stone-50 text-xs uppercase tracking-wide text-slate-500">

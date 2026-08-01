@@ -5,9 +5,13 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Home, ShoppingBag, Users, PhoneCall, Search, Leaf, Sparkles, Layers, Heart } from "lucide-react";
 
+import { CONTACT_DETAILS, type ContactDetails } from "@/data/adminContent";
+import { useSettings } from "@/lib/client/useSettings";
+
 export default function Navbar() {
   const pathname = usePathname();
   const [searchQuery, setSearchQuery] = useState("");
+  const { data: contact } = useSettings<ContactDetails>("contact-details", CONTACT_DETAILS);
 
   const navLinks = [
     { name: "Home", href: "/", icon: Home },
@@ -25,6 +29,8 @@ export default function Navbar() {
     }
   };
 
+  const phoneLink = `tel:${(contact?.phone || "+918269108808").replace(/\s/g, "")}`;
+
   return (
     <>
       {/* ================= HEADER NAVIGATION ================= */}
@@ -36,19 +42,19 @@ export default function Navbar() {
             {/* Logo */}
             <Link href="/" className="flex items-center gap-2 group shrink-0">
               <img 
-                src="/assets/company_logo.png" 
-                alt="Greengrow Fertilizer Logo" 
+                src={contact?.logo || "/assets/company_logo.png"} 
+                alt={contact?.brandName || "Greengrow Fertilizer Logo"} 
                 className="h-8 sm:h-9 w-auto object-contain" 
               />
               <div>
-                <span className="text-sm font-black tracking-tight text-slate-900 block leading-none">GREENGROW FERTILIZER</span>
-                <span className="text-[7px] uppercase tracking-widest text-emerald-650 font-extrabold block mt-0.5">Scientific Bio-Inputs</span>
+                <span className="text-sm font-black tracking-tight text-slate-900 block leading-none">{contact?.brandName || "GREENGROW FERTILIZER"}</span>
+                <span className="text-[7px] uppercase tracking-widest text-emerald-650 font-extrabold block mt-0.5">{contact?.brandTagline || "D2C Agrochemicals"}</span>
               </div>
             </Link>
 
             {/* Mobile Call Icon (Only on mobile top header) */}
             <div className="flex md:hidden items-center gap-2">
-              <a href="tel:+918269108808" className="p-2 text-emerald-605 bg-emerald-50 rounded-xl transition-colors">
+              <a href={phoneLink} className="p-2 text-emerald-605 bg-emerald-50 rounded-xl transition-colors">
                 <PhoneCall className="w-4 h-4" />
               </a>
             </div>

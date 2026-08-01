@@ -2,12 +2,12 @@
 
 import { useState } from "react";
 import { Plus, Pencil, Trash2, Newspaper } from "lucide-react";
-import { BLOG_ITEMS, type BlogItem } from "@/data/adminContent";
+import type { BlogItem } from "@/data/adminContent";
 import Modal, { Field, ImageField, SaveFooter, inputCls } from "@/components/admin/Modal";
 import { useResource } from "@/lib/client/useResource";
 
 export default function BlogsManager() {
-    const { items, error, save: saveItem, remove: removeItem } = useResource<BlogItem>("blogs", BLOG_ITEMS);
+    const { items, error, save: saveItem, remove: removeItem } = useResource<BlogItem>("blogs");
     const [open, setOpen] = useState(false);
     const [editing, setEditing] = useState<BlogItem | null>(null);
     const [form, setForm] = useState<BlogItem>({ id: "", title: "", date: "", desc: "", category: "", image: "" });
@@ -51,7 +51,7 @@ export default function BlogsManager() {
                 </button>
             </div>
 
-            {error && <p className="rounded-xl bg-amber-50 px-4 py-3 text-xs text-amber-700">Using local fallback data: {error}</p>}
+            {error && <p className="rounded-xl bg-amber-50 px-4 py-3 text-xs text-amber-700">{error}</p>}
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 {items.map((b) => (
                     <div key={b.id} className="overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm">
